@@ -1,0 +1,173 @@
+.dialog {
+  width: min(42rem, calc(100vw - 2rem));
+  max-height: min(90svh, 56rem);
+  margin: auto;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-secondary);
+  padding: 0;
+  color: var(--color-cream);
+  box-shadow: var(--shadow-dialog);
+}
+
+.dialog[open] {
+  animation: dialogIn 320ms var(--ease-out) both;
+}
+
+.dialog[open]::backdrop {
+  animation: backdropIn 280ms var(--ease-out) both;
+}
+
+.artWrap {
+  position: relative;
+  min-height: 10rem;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dialogArt {
+  position: absolute;
+  inset: 0;
+}
+
+.close {
+  position: absolute;
+  z-index: 2;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(245, 239, 231, 0.24);
+  border-radius: 50%;
+  background: rgba(14, 7, 3, 0.6);
+  color: var(--color-cream);
+  backdrop-filter: blur(8px);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+  border-color: var(--color-orange);
+  background: var(--color-orange);
+  color: #190b05;
+}
+
+.content {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.title {
+  margin-top: 0.6rem;
+  color: var(--color-cream);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.description {
+  margin-top: 1rem;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.focusBlock {
+  margin-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+}
+
+.focusLabel {
+  color: var(--color-muted);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.focusList {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+.focusItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.focusNumber {
+  flex: none;
+  color: var(--color-orange);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.note {
+  margin-top: 1.5rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .dialog {
+    width: calc(100vw - 1.25rem);
+    max-height: 92svh;
+  }
+
+  .artWrap {
+    aspect-ratio: 16 / 8;
+    min-height: 8.5rem;
+  }
+
+  .content {
+    padding: 1.25rem;
+  }
+
+  .close {
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

@@ -1,0 +1,142 @@
+.wrap {
+  position: fixed;
+  right: clamp(1rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.65rem;
+  animation: floatIn var(--dur-base) var(--ease-out) both;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.button {
+  position: relative;
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-whatsapp);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.button:hover {
+  border-color: var(--color-whatsapp);
+  background: var(--color-whatsapp);
+  color: #08130c;
+  transform: translateY(-2px);
+}
+
+.button:focus-visible {
+  outline-color: var(--color-whatsapp);
+}
+
+.badge {
+  position: absolute;
+  top: -0.1rem;
+  right: -0.1rem;
+  display: grid;
+  width: 1.15rem;
+  height: 1.15rem;
+  place-items: center;
+  border: 2px solid var(--color-bg);
+  border-radius: 50%;
+  background: var(--color-orange);
+  color: #190b05;
+  font-size: 0.625rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.panel {
+  order: -1;
+  width: min(18rem, calc(100vw - 2.5rem));
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-glass);
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(14px);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.panelTitle {
+  color: var(--color-cream);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.panelText {
+  margin-top: 0.4rem;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.close {
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-muted);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-cream);
+}
+
+.panelLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.8rem;
+  color: var(--color-orange);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.panelLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .button {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+}

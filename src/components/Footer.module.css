@@ -1,0 +1,246 @@
+.footer {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-deep);
+  padding-top: clamp(4rem, 7vw, 6rem);
+  padding-bottom: 1.5rem;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 90, 0, 0.5) 20%,
+    transparent 60%
+  );
+}
+
+.top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: 3rem;
+  align-items: start;
+}
+
+.brandCol {
+  grid-column: 1 / 6;
+}
+
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.brandName {
+  color: var(--color-cream);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1.2;
+}
+
+.brandDescriptor {
+  color: var(--color-muted);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.statement {
+  max-width: 13ch;
+  margin-top: 2rem;
+  color: var(--color-cream);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.statement .serif {
+  display: block;
+  margin-top: 0.06em;
+  font-size: 1.08em;
+}
+
+.description {
+  max-width: 28rem;
+  margin-top: 1.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.enquireLink {
+  margin-top: 1.5rem;
+}
+
+.navCol {
+  grid-column: 7 / 9;
+}
+
+.visitCol {
+  grid-column: 10 / 13;
+}
+
+.columnTitle {
+  display: block;
+  color: var(--color-muted);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.footerLink {
+  display: inline-block;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.footerLink:hover {
+  color: var(--color-orange);
+}
+
+.address {
+  max-width: 18rem;
+  margin-top: 1.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.65;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+  color: var(--color-orange);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.mapLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contactBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+}
+
+.pendingNote {
+  max-width: 18rem;
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+}
+
+.copyright {
+  color: var(--color-muted);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+
+.backToTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--color-text-secondary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.backToTop:hover {
+  color: var(--color-orange);
+}
+
+.backToTop svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.backToTop:hover svg {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  .brandCol {
+    grid-column: 1 / -1;
+  }
+
+  .navCol {
+    grid-column: 1 / 2;
+  }
+
+  .visitCol {
+    grid-column: 2 / 3;
+  }
+}
+
+@media (max-width: 560px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+
+  .navCol,
+  .visitCol {
+    grid-column: auto;
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+}

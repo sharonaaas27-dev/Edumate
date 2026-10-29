@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  max-width: 58rem;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  margin-top: 1.25rem;
+  color: var(--color-cream);
+}
+
+.description {
+  max-width: 36rem;
+  margin-top: 1.5rem;
+  color: var(--color-text-secondary);
+  font-size: var(--text-lead);
+  line-height: var(--line-body);
+  text-wrap: pretty;
+}
+
+.center {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.center .description {
+  margin-inline: auto;
+}
