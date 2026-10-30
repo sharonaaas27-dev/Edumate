@@ -1,46 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, MessageCircle, X } from 'lucide-react';
 import { siteConfig } from '../data/siteConfig';
+import { Link, useRoute } from '../router';
 import styles from './WhatsAppButton.module.css';
 
 export function WhatsAppButton() {
   const [visible, setVisible] = useState(false);
-  const [contactInView, setContactInView] = useState(false);
   const [pendingOpen, setPendingOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const whatsappHref = siteConfig.contact.whatsappHref;
+  const { path } = useRoute();
 
   useEffect(() => {
-    const updateVisibility = () => setVisible(window.scrollY > 480);
-
+    const updateVisibility = () => setVisible(window.scrollY > 420);
     updateVisibility();
     window.addEventListener('scroll', updateVisibility, { passive: true });
-
     return () => window.removeEventListener('scroll', updateVisibility);
   }, []);
 
   useEffect(() => {
-    const contact = document.getElementById('contact');
-
-    if (!contact) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setContactInView(entry.isIntersecting);
-
-        if (entry.isIntersecting) {
-          setPendingOpen(false);
-        }
-      },
-      { threshold: 0.04 },
-    );
-
-    observer.observe(contact);
-
-    return () => observer.disconnect();
-  }, []);
+    setPendingOpen(false);
+  }, [path]);
 
   useEffect(() => {
     if (!pendingOpen) {
@@ -54,10 +34,7 @@ export function WhatsAppButton() {
     };
 
     const closeOnOutsideClick = (event: PointerEvent) => {
-      if (
-        wrapRef.current &&
-        !wrapRef.current.contains(event.target as Node)
-      ) {
+      if (wrapRef.current && !wrapRef.current.contains(event.target as Node)) {
         setPendingOpen(false);
       }
     };
@@ -71,7 +48,7 @@ export function WhatsAppButton() {
     };
   }, [pendingOpen]);
 
-  if (!visible || contactInView) {
+  if (!visible || path === '/contact') {
     return null;
   }
 
@@ -85,7 +62,7 @@ export function WhatsAppButton() {
           rel="noopener noreferrer"
           aria-label="Chat with Edumate on WhatsApp (opens in a new tab)"
         >
-          <MessageCircle size={22} strokeWidth={1.9} aria-hidden="true" />
+          <MessageCircle size={22} strokeWidth={2} aria-hidden="true" />
         </a>
       ) : (
         <button
@@ -96,7 +73,7 @@ export function WhatsAppButton() {
           aria-expanded={pendingOpen}
           aria-controls="whatsapp-pending-panel"
         >
-          <MessageCircle size={22} strokeWidth={1.9} aria-hidden="true" />
+          <MessageCircle size={22} strokeWidth={2} aria-hidden="true" />
           <span className={styles.badge} aria-hidden="true">
             !
           </span>
@@ -119,17 +96,17 @@ export function WhatsAppButton() {
               onClick={() => setPendingOpen(false)}
               aria-label="Close WhatsApp status"
             >
-              <X size={13} strokeWidth={2} aria-hidden="true" />
+              <X size={13} strokeWidth={2.2} aria-hidden="true" />
             </button>
           </div>
-          <a
+          <Link
             className={styles.panelLink}
-            href="#contact"
+            to="/contact"
             onClick={() => setPendingOpen(false)}
           >
             Go to enquiry form
-            <ArrowRight size={13} strokeWidth={2} aria-hidden="true" />
-          </a>
+            <ArrowRight size={13} strokeWidth={2.2} aria-hidden="true" />
+          </Link>
         </div>
       ) : null}
     </div>

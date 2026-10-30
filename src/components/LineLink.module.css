@@ -1,0 +1,22 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-red);
+  font-size: var(--text-small);
+  font-weight: 800;
+  line-height: 1.4;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.link svg {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.link:hover {
+  color: var(--color-red-hover);
+}
+
+.link:hover svg {
+  transform: translate(2px, -2px);
+}

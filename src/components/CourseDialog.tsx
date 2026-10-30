@@ -1,17 +1,16 @@
 import { useEffect, useRef } from 'react';
 import type { MouseEvent } from 'react';
-import { ArrowUpRight, X } from 'lucide-react';
+import { ArrowUpRight, Check, X } from 'lucide-react';
 import type { Course } from '../data/courses';
-import { CourseArtwork } from './CourseArtwork';
+import { navigate } from '../router';
 import styles from './CourseDialog.module.css';
 
 interface CourseDialogProps {
   course: Course | null;
   onClose: () => void;
-  onEnquire: (courseName: string) => void;
 }
 
-export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) {
+export function CourseDialog({ course, onClose }: CourseDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -49,9 +48,9 @@ export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) 
       return;
     }
 
-    const enquiryValue = course.enquiryValue;
+    const target = `/contact?course=${encodeURIComponent(course.enquiryValue)}`;
     dialogRef.current?.close();
-    window.setTimeout(() => onEnquire(enquiryValue), 120);
+    window.setTimeout(() => navigate(target), 120);
   };
 
   return (
@@ -64,21 +63,30 @@ export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) 
       aria-describedby={course ? 'course-dialog-description' : undefined}
     >
       {course ? (
-        <>
-          <div className={styles.artWrap}>
-            <CourseArtwork variant={course.id} className={styles.dialogArt} />
+        <div className={styles.layout}>
+          <div className={styles.media}>
+            <img
+              src={course.image.src}
+              srcSet={course.image.srcSet}
+              sizes="(max-width: 760px) 92vw, 44vw"
+              width={course.image.width}
+              height={course.image.height}
+              alt={course.image.alt}
+            />
+            <span className={styles.mediaLabel}>{course.category}</span>
+          </div>
+
+          <div className={styles.content}>
             <button
               className={styles.close}
               type="button"
               onClick={() => dialogRef.current?.close()}
               aria-label="Close course details"
             >
-              <X size={19} strokeWidth={1.8} aria-hidden="true" />
+              <X size={19} strokeWidth={2} aria-hidden="true" />
             </button>
-          </div>
 
-          <div className={styles.content}>
-            <p className="eyebrow eyebrow--plain">{course.category}</p>
+            <p className={styles.eyebrow}>{course.shortName} Programme</p>
             <h2 className={styles.title} id="course-dialog-title">
               {course.name}
             </h2>
@@ -86,13 +94,24 @@ export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) 
               {course.overview}
             </p>
 
+            <div className={styles.subjects}>
+              <span className={styles.subjectsLabel}>Subjects covered</span>
+              <ul className={styles.subjectList}>
+                {course.subjects.map((subject) => (
+                  <li className="tag" key={subject}>
+                    {subject}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className={styles.focusBlock}>
-              <p className={styles.focusLabel}>Illustrative focus areas</p>
+              <p className={styles.focusLabel}>Preparation focus</p>
               <ul className={styles.focusList}>
-                {course.focusAreas.map((area, index) => (
+                {course.focusAreas.map((area) => (
                   <li className={styles.focusItem} key={area}>
-                    <span className={styles.focusNumber} aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
+                    <span className={styles.focusIcon} aria-hidden="true">
+                      <Check size={12} strokeWidth={2.6} />
                     </span>
                     <span>{area}</span>
                   </li>
@@ -101,9 +120,9 @@ export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) 
             </div>
 
             <p className={styles.note}>
-              Course schedules, eligibility, fees and faculty details are
-              confirmed directly by Edumate. These focus areas are general
-              preparation themes, not a guaranteed curriculum.
+              Course schedules, eligibility, fees and faculty details are confirmed
+              directly by Edumate. These focus areas are general preparation themes,
+              not a guaranteed curriculum.
             </p>
 
             <div className={styles.actions}>
@@ -113,11 +132,11 @@ export function CourseDialog({ course, onClose, onEnquire }: CourseDialogProps) 
                 onClick={handleEnquire}
               >
                 Enquire about {course.shortName}
-                <ArrowUpRight size={17} strokeWidth={2} aria-hidden="true" />
+                <ArrowUpRight size={17} strokeWidth={2.2} aria-hidden="true" />
               </button>
             </div>
           </div>
-        </>
+        </div>
       ) : null}
     </dialog>
   );

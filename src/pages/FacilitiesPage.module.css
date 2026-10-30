@@ -1,0 +1,360 @@
+.accent {
+  color: var(--color-red);
+}
+
+.introSection {
+  background: var(--color-bg);
+}
+
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.introCopy {
+  max-width: 36rem;
+  padding-top: 0.4rem;
+}
+
+.introCopy > p {
+  color: var(--color-muted);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+  border-left: 3px solid var(--color-red);
+  background: var(--color-grey-soft);
+  padding: 0.8rem 0.95rem;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.disclaimer svg {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--color-red);
+}
+
+.rowsSection {
+  overflow: hidden;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 5.5rem);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.rowReverse .rowMedia {
+  order: 2;
+}
+
+.rowMedia {
+  position: relative;
+  padding: 0 0 1.1rem 1.1rem;
+}
+
+.rowMedia img {
+  width: 100%;
+  aspect-ratio: 4 / 3.2;
+  border-radius: var(--radius-xl);
+  object-fit: cover;
+  box-shadow: var(--shadow-card);
+}
+
+.rowIndex {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-red);
+  color: var(--color-white);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-card);
+}
+
+.rowAccent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.9rem;
+  border: 2px solid var(--color-red);
+  opacity: 0.5;
+}
+
+.rowCopy {
+  max-width: 36rem;
+}
+
+.rowLabel {
+  color: var(--color-red);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.rowCopy h2 {
+  margin-top: 0.6rem;
+  color: var(--color-charcoal);
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+.rowText {
+  margin-top: 0.8rem;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  line-height: 1.72;
+}
+
+.rowBullets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
+}
+
+.rowBullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--color-charcoal);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.bulletIcon {
+  display: grid;
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: none;
+  place-items: center;
+  margin-top: 0.12rem;
+  border-radius: 50%;
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.cardsSection {
+  background: var(--color-bg);
+}
+
+.facilityGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.15rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.facilityCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.facilityCard:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-4px);
+}
+
+.facilityIcon {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.facilityCard h3 {
+  margin-top: 0.9rem;
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.facilityCard p {
+  margin-top: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.gallerySection {
+  background: var(--color-grey-soft);
+}
+
+.galleryHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.galleryHeader > a {
+  flex: none;
+  padding-bottom: 0.3rem;
+}
+
+.galleryStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.8rem, 1.6vw, 1.2rem);
+}
+
+.galleryItem {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-charcoal);
+  aspect-ratio: 4 / 3;
+}
+
+.galleryItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.galleryItem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(20, 20, 20, 0.7));
+}
+
+.galleryItem:hover img {
+  transform: scale(1.05);
+}
+
+.galleryItem span {
+  position: absolute;
+  z-index: 1;
+  bottom: 1rem;
+  left: 1rem;
+  color: var(--color-white);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .facilityGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .facilityCard:nth-child(n + 4) {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .introGrid,
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .rowReverse .rowMedia {
+    order: 0;
+  }
+
+  .rowMedia {
+    max-width: 36rem;
+  }
+
+  .rowCopy {
+    max-width: 42rem;
+  }
+
+  .facilityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .facilityCard:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .galleryStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .galleryItem:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .galleryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .galleryStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryItem:last-child {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .facilityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .facilityCard:last-child {
+    grid-column: auto;
+  }
+
+  .rowMedia {
+    padding: 0 0 1rem 1rem;
+  }
+
+  .rowIndex {
+    left: 1.8rem;
+  }
+}

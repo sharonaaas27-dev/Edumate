@@ -6,8 +6,9 @@ interface SectionHeadingProps {
   title: ReactNode;
   description?: ReactNode;
   titleId?: string;
-  className?: string;
   align?: 'left' | 'center';
+  tone?: 'default' | 'light';
+  className?: string;
 }
 
 export function SectionHeading({
@@ -15,12 +16,18 @@ export function SectionHeading({
   title,
   description,
   titleId,
-  className,
   align = 'left',
+  tone = 'default',
+  className,
 }: SectionHeadingProps) {
   return (
     <header
-      className={[styles.header, align === 'center' ? styles.center : '', className]
+      className={[
+        styles.header,
+        align === 'center' ? styles.center : '',
+        tone === 'light' ? styles.light : '',
+        className,
+      ]
         .filter(Boolean)
         .join(' ')}
       data-reveal

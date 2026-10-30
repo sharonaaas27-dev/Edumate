@@ -4,6 +4,21 @@ export interface NumberedStep {
   description: string;
 }
 
+export interface FeatureHighlight {
+  icon: 'focus' | 'structure' | 'practice' | 'guidance' | 'support';
+  title: string;
+  description: string;
+}
+
+export interface UpdateItem {
+  icon: 'book' | 'message' | 'pin';
+  label: string;
+  title: string;
+  description: string;
+  linkLabel: string;
+  href: string;
+}
+
 export const learningSteps: NumberedStep[] = [
   {
     number: '01',
@@ -81,3 +96,68 @@ export const heroFeatures = [
   { label: 'Practice & Progress', detail: 'Learning reinforced through questions' },
   { label: 'Student Support', detail: 'Guidance for students and parents' },
 ] as const;
+
+export const featureHighlights: FeatureHighlight[] = [
+  {
+    icon: 'focus',
+    title: 'Focused Preparation',
+    description: 'A clear direction for NEET and NDA entrance examinations.',
+  },
+  {
+    icon: 'structure',
+    title: 'Structured Learning',
+    description: 'A simple path from understanding concepts to applying them.',
+  },
+  {
+    icon: 'practice',
+    title: 'Practice with Purpose',
+    description: 'Question practice and revision that reinforce understanding.',
+  },
+  {
+    icon: 'guidance',
+    title: 'Clear Guidance',
+    description: 'Direct answers about courses, schedules and admissions.',
+  },
+  {
+    icon: 'support',
+    title: 'Student Support',
+    description: 'Guidance for students and parents at every enquiry.',
+  },
+];
+
+export const aboutStats = [
+  { value: '02', label: 'Entrance programmes' },
+  { value: '03', label: 'Learning stages' },
+  { value: '05', label: 'Preparation stages' },
+  { value: 'Kerala', label: 'Neyyattinkara centre' },
+];
+
+export const updates: UpdateItem[] = [
+  {
+    icon: 'book',
+    label: 'Programmes',
+    title: 'NEET & NDA preparation',
+    description:
+      'Explore the two entrance coaching programmes offered at Edumate, including focus areas and preparation themes.',
+    linkLabel: 'View courses',
+    href: '/courses',
+  },
+  {
+    icon: 'message',
+    label: 'Admissions',
+    title: 'Enquiries are welcome',
+    description:
+      'Share your details and course of interest. Edumate can follow up about schedules, eligibility and admission information.',
+    linkLabel: 'Start an enquiry',
+    href: '/contact',
+  },
+  {
+    icon: 'pin',
+    label: 'Visit',
+    title: 'Nilamel–Alummoodu, Neyyattinkara',
+    description:
+      'Find Edumate in Neyyattinkara, Kerala. Open the map search for directions to the locality.',
+    linkLabel: 'Contact & directions',
+    href: '/contact',
+  },
+];

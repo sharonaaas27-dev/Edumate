@@ -1,52 +1,56 @@
-import { useRef, useState } from 'react';
 import { AnnouncementBar } from './components/AnnouncementBar';
-import { CampusGallery } from './components/CampusGallery';
-import { ContactSection } from './components/ContactSection';
-import type { CourseSelection } from './components/ContactSection';
-import { CourseSection } from './components/CourseSection';
-import { EnquiryCTA } from './components/EnquiryCTA';
 import { Footer } from './components/Footer';
-import { Hero } from './components/Hero';
-import { IntroSection } from './components/IntroSection';
-import { LearningApproach } from './components/LearningApproach';
+import { LineLink } from './components/LineLink';
 import { Navbar } from './components/Navbar';
-import { PreparationJourney } from './components/PreparationJourney';
+import { PageHero } from './components/PageHero';
 import { WhatsAppButton } from './components/WhatsAppButton';
-import { WhyEdumate } from './components/WhyEdumate';
 import { useScrollReveal } from './hooks/useScrollReveal';
+import { AboutPage } from './pages/AboutPage';
+import { ContactPage } from './pages/ContactPage';
+import { CoursesPage } from './pages/CoursesPage';
+import { FacilitiesPage } from './pages/FacilitiesPage';
+import { GalleryPage } from './pages/GalleryPage';
+import { HomePage } from './pages/HomePage';
+import { ResultsPage } from './pages/ResultsPage';
+import { RouterProvider, useRoute } from './router';
 
-export default function App() {
-  useScrollReveal();
+const pageMap = {
+  '/': HomePage,
+  '/about': AboutPage,
+  '/courses': CoursesPage,
+  '/facilities': FacilitiesPage,
+  '/results': ResultsPage,
+  '/gallery': GalleryPage,
+  '/contact': ContactPage,
+};
 
-  const [courseSelection, setCourseSelection] = useState<CourseSelection | null>(
-    null,
+function NotFoundPage() {
+  return (
+    <PageHero
+      eyebrow="404"
+      crumb="Page Not Found"
+      title={
+        <>
+          This page could
+          <span style={{ color: 'var(--color-red)' }}> not be found.</span>
+        </>
+      }
+      description="The page you are looking for may have moved or no longer exists. Use the links below to continue exploring Edumate."
+      actions={
+        <>
+          <LineLink to="/">Back to home</LineLink>
+          <LineLink to="/contact">Contact Edumate</LineLink>
+        </>
+      }
+    />
   );
-  const selectionToken = useRef(0);
+}
 
-  const handleCourseEnquiry = (course: string) => {
-    selectionToken.current += 1;
-    setCourseSelection({ course, token: selectionToken.current });
+function SiteShell() {
+  const { path } = useRoute();
+  useScrollReveal(path);
 
-    const contact = document.getElementById('contact');
-
-    if (!contact) {
-      return;
-    }
-
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-
-    contact.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
-
-    window.setTimeout(
-      () => contact.focus({ preventScroll: true }),
-      prefersReducedMotion ? 0 : 500,
-    );
-  };
+  const Page = pageMap[path as keyof typeof pageMap] ?? NotFoundPage;
 
   return (
     <>
@@ -58,21 +62,21 @@ export default function App() {
         <AnnouncementBar />
         <Navbar />
 
-        <main id="main-content" tabIndex={-1}>
-          <Hero />
-          <IntroSection />
-          <CourseSection onEnquire={handleCourseEnquiry} />
-          <LearningApproach />
-          <WhyEdumate />
-          <PreparationJourney />
-          <CampusGallery />
-          <EnquiryCTA />
-          <ContactSection courseSelection={courseSelection} />
+        <main id="main-content" tabIndex={-1} key={path}>
+          <Page />
         </main>
 
         <Footer />
         <WhatsAppButton />
       </div>
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <RouterProvider>
+      <SiteShell />
+    </RouterProvider>
   );
 }

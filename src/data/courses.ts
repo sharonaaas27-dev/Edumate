@@ -1,5 +1,14 @@
 export type CourseArt = 'neet' | 'nda';
 
+export interface CourseImage {
+  src: string;
+  srcSet?: string;
+  sizes: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 export interface Course {
   id: CourseArt;
   name: string;
@@ -8,6 +17,8 @@ export interface Course {
   description: string;
   overview: string;
   enquiryValue: string;
+  image: CourseImage;
+  subjects: string[];
   // Illustrative preparation themes, not a confirmed Edumate curriculum.
   focusAreas: string[];
 }
@@ -25,6 +36,15 @@ export const courses: Course[] = [
     overview:
       'A focused preparation pathway for students working toward NEET, built around understanding concepts and applying them to examination-style questions.',
     enquiryValue: 'NEET Entrance Coaching',
+    image: {
+      src: '/images/classroom-learning-900.jpg',
+      srcSet: '/images/classroom-learning-600.jpg 600w, /images/classroom-learning-900.jpg 900w',
+      sizes: '(max-width: 900px) 92vw, 30vw',
+      width: 900,
+      height: 600,
+      alt: 'Students listening and taking notes in a classroom',
+    },
+    subjects: ['Physics', 'Chemistry', 'Biology'],
     focusAreas: [
       'Strengthening conceptual foundations',
       'Practising questions across core subjects',
@@ -41,6 +61,16 @@ export const courses: Course[] = [
     overview:
       'A focused preparation pathway for students exploring the National Defence Academy, with attention to the academic demands of the entrance examination.',
     enquiryValue: 'NDA Entrance Coaching',
+    image: {
+      src: '/images/students-collaborating-1400.jpg',
+      srcSet:
+        '/images/students-collaborating-900.jpg 900w, /images/students-collaborating-1400.jpg 1400w',
+      sizes: '(max-width: 900px) 92vw, 30vw',
+      width: 1400,
+      height: 933,
+      alt: 'Students working together around a table',
+    },
+    subjects: ['Mathematics', 'General Ability'],
     focusAreas: [
       'Building subject knowledge',
       'Working through examination-style questions',

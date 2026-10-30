@@ -13,6 +13,7 @@ export const siteConfig = {
   name: 'Edumate Entrance Coaching Centre',
   shortName: 'EDUMATE',
   descriptor: 'Entrance Coaching Centre',
+  tagline: 'Learn · Grow · Achieve',
   description:
     'Entrance examination preparation for students working toward NEET and NDA, located in Nilamel–Alummoodu, Neyyattinkara, Kerala.',
   location: {
@@ -37,10 +38,13 @@ export const siteConfig = {
   },
   enquiryEndpoint: normalise(env.VITE_ENQUIRY_ENDPOINT),
   navigation: [
-    { label: 'Courses', href: '#courses' },
-    { label: 'Learning Approach', href: '#approach' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', to: '/' },
+    { label: 'About Us', to: '/about' },
+    { label: 'Courses', to: '/courses' },
+    { label: 'Facilities', to: '/facilities' },
+    { label: 'Results', to: '/results' },
+    { label: 'Gallery', to: '/gallery' },
+    { label: 'Contact', to: '/contact' },
   ],
 } as const;
 

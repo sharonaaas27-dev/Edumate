@@ -1,0 +1,151 @@
+.dialog {
+  width: min(72rem, 94vw);
+  max-height: 92svh;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: #141414;
+  padding: 0;
+  color: var(--color-white);
+  box-shadow: var(--shadow-dialog);
+}
+
+.dialog[open] {
+  animation: dialogIn 280ms var(--ease-out) both;
+}
+
+.viewer {
+  display: flex;
+  max-height: 92svh;
+  flex-direction: column;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.label {
+  color: var(--color-white);
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.count {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.close {
+  display: grid;
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: var(--color-white);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.close:hover {
+  border-color: var(--color-red);
+  background: var(--color-red);
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 0;
+  padding: 0 0.75rem 1rem;
+}
+
+.image {
+  width: auto;
+  max-width: calc(100% - 7rem);
+  max-height: calc(92svh - 6rem);
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+}
+
+.navButton {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: var(--color-white);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.navButton:hover {
+  border-color: var(--color-red);
+  background: var(--color-red);
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .dialog {
+    max-height: 96svh;
+  }
+
+  .stage {
+    gap: 0.4rem;
+    padding-inline: 0.4rem;
+  }
+
+  .image {
+    max-width: calc(100% - 1rem);
+    max-height: calc(92svh - 6.5rem);
+  }
+
+  .navButton {
+    position: absolute;
+    bottom: 0.9rem;
+    z-index: 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(6px);
+  }
+
+  .navButton:first-of-type {
+    left: 0.9rem;
+  }
+
+  .navButton:last-of-type {
+    right: 0.9rem;
+  }
+}

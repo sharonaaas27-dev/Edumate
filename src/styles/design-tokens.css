@@ -1,52 +1,60 @@
 :root {
-  /* Colour */
-  --color-bg: #160a05;
-  --color-bg-secondary: #21110a;
-  --color-bg-deep: #120803;
-  --color-surface: #2b1911;
-  --color-card: #35231a;
-  --color-orange: #ff5a00;
-  --color-orange-hover: #ff7526;
-  --color-cream: #f5efe7;
-  --color-text-secondary: #b7aaa0;
-  --color-muted: #918278;
-  --color-border: rgba(245, 239, 231, 0.12);
-  --color-border-strong: rgba(245, 239, 231, 0.24);
-  --color-glass: rgba(47, 29, 20, 0.7);
-  --color-orange-soft: rgba(255, 90, 0, 0.12);
-  --color-orange-faint: rgba(255, 90, 0, 0.06);
-  --color-whatsapp: #25d366;
-  --color-error: #ffb4a2;
-  --color-success: #d8e7c2;
+  /* Brand */
+  --color-red: #e53935;
+  --color-red-hover: #c62828;
+  --color-red-active: #b71c1c;
+  --color-charcoal: #252525;
+  --color-charcoal-soft: #333333;
+  --color-bg: #fafaf8;
+  --color-white: #ffffff;
+  --color-grey: #e8e8e5;
+  --color-grey-soft: #f2f2ef;
+  --color-grey-deep: #dcdcd7;
+  --color-muted: #737373;
 
-  /* Type */
+  /* Semantic */
+  --color-text: var(--color-charcoal);
+  --color-text-muted: var(--color-muted);
+  --color-border: #e5e5e1;
+  --color-border-strong: #d4d4cf;
+  --color-primary: var(--color-red);
+  --color-primary-hover: var(--color-red-hover);
+  --color-on-primary: var(--color-white);
+  --color-red-soft: rgba(229, 57, 53, 0.09);
+  --color-red-faint: rgba(229, 57, 53, 0.05);
+  --color-charcoal-soft-bg: rgba(37, 37, 37, 0.05);
+  --color-error: #c62828;
+  --color-success: #2e7d32;
+
+  /* Typography */
   --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --text-hero: clamp(3.2rem, 6.2vw, 5.5rem);
-  --text-h2: clamp(2.5rem, 4.6vw, 4rem);
-  --text-h3: clamp(1.55rem, 2.1vw, 2.1rem);
-  --text-h4: clamp(1.2rem, 1.5vw, 1.4rem);
-  --text-lead: clamp(1.0625rem, 1.15vw, 1.1875rem);
-  --text-body: clamp(1rem, 1.02vw, 1.125rem);
+  --font-hand: 'Caveat', 'Segoe Script', 'Brush Script MT', cursive;
+  --text-display: clamp(2.8rem, 5.8vw, 4.75rem);
+  --text-h2: clamp(2rem, 3.6vw, 3rem);
+  --text-h3: clamp(1.35rem, 1.8vw, 1.75rem);
+  --text-h4: clamp(1.05rem, 1.2vw, 1.2rem);
+  --text-lead: clamp(1.02rem, 1.15vw, 1.15rem);
+  --text-body: clamp(0.98rem, 1vw, 1.05rem);
   --text-small: 0.875rem;
-  --text-label: 0.6875rem;
-  --line-display: 0.98;
-  --line-heading: 1.08;
-  --line-body: 1.72;
+  --text-label: 0.72rem;
+  --line-display: 1.04;
+  --line-heading: 1.14;
+  --line-body: 1.7;
 
   /* Layout */
-  --container-max: 1440px;
-  --gutter: clamp(1.25rem, 6vw, 6rem);
-  --section-y: clamp(4rem, 8.5vw, 8.75rem);
-  --section-y-sm: clamp(3rem, 6vw, 6rem);
+  --container-max: 1240px;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --section-y: clamp(4.25rem, 8vw, 7rem);
+  --section-y-sm: clamp(3rem, 5vw, 4.5rem);
   --nav-height: 5rem;
   --announcement-height: 2.5rem;
 
   /* Shape */
-  --radius-xs: 3px;
-  --radius-sm: 6px;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
   --radius-md: 14px;
-  --radius-lg: 24px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
   --radius-pill: 999px;
 
   /* Motion */
@@ -54,15 +62,15 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 180ms;
   --dur-base: 320ms;
-  --dur-slow: 600ms;
+  --dur-slow: 560ms;
 
   /* Elevation */
-  --shadow-card: 0 24px 70px rgba(0, 0, 0, 0.32);
-  --shadow-dialog: 0 40px 120px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 2px 10px rgba(37, 37, 37, 0.05);
+  --shadow-card: 0 18px 42px -22px rgba(37, 37, 37, 0.24);
+  --shadow-lift: 0 28px 60px -28px rgba(37, 37, 37, 0.32);
+  --shadow-dialog: 0 40px 100px -20px rgba(20, 20, 20, 0.5);
 
   /* Layers */
-  --z-base: 1;
-  --z-hero: 2;
   --z-header: 100;
   --z-menu: 110;
   --z-floating: 120;
@@ -71,14 +79,14 @@
 
 @media (max-width: 900px) {
   :root {
-    --nav-height: 4.25rem;
-    --announcement-height: 2.375rem;
+    --nav-height: 4.35rem;
+    --announcement-height: 2.35rem;
   }
 }
 
 @media (max-width: 480px) {
   :root {
     --nav-height: 4rem;
-    --gutter: 1.25rem;
+    --gutter: 1.15rem;
   }
 }

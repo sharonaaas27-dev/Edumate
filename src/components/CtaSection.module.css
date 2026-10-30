@@ -1,0 +1,141 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-charcoal);
+  padding-block: clamp(4rem, 8vw, 6.5rem);
+}
+
+.media,
+.overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  filter: saturate(0.75) contrast(1.02);
+}
+
+.overlay {
+  background:
+    linear-gradient(90deg, rgba(20, 20, 20, 0.94) 0%, rgba(20, 20, 20, 0.8) 46%, rgba(20, 20, 20, 0.5) 100%),
+    linear-gradient(180deg, rgba(20, 20, 20, 0.3), rgba(20, 20, 20, 0.62));
+}
+
+.accent {
+  position: absolute;
+  z-index: 1;
+  top: -6rem;
+  right: 8%;
+  width: 17rem;
+  height: 34rem;
+  background: var(--color-red);
+  opacity: 0.16;
+  transform: rotate(24deg);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) auto;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.copy {
+  max-width: 40rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--color-red);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--color-red);
+}
+
+.title {
+  max-width: 18ch;
+  margin-top: 0.9rem;
+  color: var(--color-white);
+  font-size: var(--text-h2);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.description {
+  max-width: 34rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--text-lead);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.35rem;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.location svg {
+  color: var(--color-red);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 11.5rem;
+}
+
+.primary {
+  box-shadow: 0 16px 32px -16px rgba(229, 57, 53, 0.9);
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions a {
+    width: 100%;
+  }
+}

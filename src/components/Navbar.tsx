@@ -1,24 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { siteConfig } from '../data/siteConfig';
-import { useActiveSection } from '../hooks/useActiveSection';
+import { Link, useRoute } from '../router';
 import styles from './Navbar.module.css';
-
-const sectionIds = ['courses', 'approach', 'about', 'contact'] as const;
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const activeSection = useActiveSection(sectionIds);
+  const { path } = useRoute();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 12);
+    const handleScroll = () => setIsScrolled(window.scrollY > 8);
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [path]);
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -71,7 +73,7 @@ export function Navbar() {
     }
 
     const handleResize = () => {
-      if (window.innerWidth > 1024) {
+      if (window.innerWidth > 1100) {
         setIsMenuOpen(false);
       }
     };
@@ -80,50 +82,50 @@ export function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMenuOpen]);
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-    requestAnimationFrame(() => toggleRef.current?.focus({ preventScroll: true }));
-  };
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <header
-      className={[
-        styles.header,
-        isScrolled ? styles.scrolled : '',
-        isMenuOpen ? styles.menuOpen : '',
-      ]
+      className={[styles.header, isScrolled ? styles.scrolled : '', isMenuOpen ? styles.menuOpen : '']
         .filter(Boolean)
         .join(' ')}
     >
       <div className={`container ${styles.inner}`}>
-        <a
+        <Link
           className={styles.brand}
-          href="#top"
-          aria-label={`${siteConfig.name} — back to top`}
+          to="/"
+          aria-label={`${siteConfig.name} — home`}
           onClick={closeMenu}
         >
-          <span className={styles.wordmark}>
-            {siteConfig.shortName}
-            <span className={styles.brandDot} aria-hidden="true" />
+          <img
+            className={styles.brandLogo}
+            src="/logo.jpg"
+            alt=""
+            width={48}
+            height={48}
+            loading="eager"
+          />
+          <span className={styles.brandText}>
+            <span className={styles.wordmark}>EDUMATE</span>
+            <span className={styles.descriptor}>{siteConfig.descriptor}</span>
           </span>
-          <span className={styles.descriptor}>{siteConfig.descriptor}</span>
-        </a>
+        </Link>
 
         <nav className={styles.desktopNav} aria-label="Primary">
           <ul className={styles.desktopList}>
             {siteConfig.navigation.map((item) => {
-              const isActive = activeSection === item.href.slice(1);
+              const isActive = path === item.to;
               return (
-                <li key={item.href}>
-                  <a
+                <li key={item.to}>
+                  <Link
                     className={[styles.navLink, isActive ? styles.active : '']
                       .filter(Boolean)
                       .join(' ')}
-                    href={item.href}
-                    aria-current={isActive ? 'location' : undefined}
+                    to={item.to}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -131,14 +133,10 @@ export function Navbar() {
         </nav>
 
         <div className={styles.actions}>
-          <a className={`btn btn--primary ${styles.desktopCta}`} href="#contact">
+          <Link className={`btn btn--primary ${styles.desktopCta}`} to="/contact">
             Enquire Now
-            <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
-          </a>
-          <a className={styles.mobileCta} href="#contact">
-            Enquire
-            <ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
-          </a>
+            <ArrowUpRight size={16} strokeWidth={2.2} aria-hidden="true" />
+          </Link>
           <button
             ref={toggleRef}
             className={styles.toggle}
@@ -149,9 +147,9 @@ export function Navbar() {
             onClick={() => setIsMenuOpen((open) => !open)}
           >
             {isMenuOpen ? (
-              <X size={21} strokeWidth={1.8} aria-hidden="true" />
+              <X size={22} strokeWidth={2} aria-hidden="true" />
             ) : (
-              <Menu size={21} strokeWidth={1.8} aria-hidden="true" />
+              <Menu size={22} strokeWidth={2} aria-hidden="true" />
             )}
           </button>
         </div>
@@ -164,19 +162,28 @@ export function Navbar() {
             <nav aria-label="Mobile">
               <ul className={styles.mobileList}>
                 {siteConfig.navigation.map((item, index) => (
-                  <li key={item.href}>
-                    <a className={styles.mobileLink} href={item.href} onClick={closeMenu}>
+                  <li key={item.to}>
+                    <Link
+                      className={[
+                        styles.mobileLink,
+                        path === item.to ? styles.mobileActive : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      to={item.to}
+                      onClick={closeMenu}
+                    >
                       <span className={styles.mobileIndex}>
                         {String(index + 1).padStart(2, '0')}
                       </span>
                       <span>{item.label}</span>
                       <ArrowUpRight
                         className={styles.mobileArrow}
-                        size={20}
-                        strokeWidth={1.7}
+                        size={19}
+                        strokeWidth={2}
                         aria-hidden="true"
                       />
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -187,14 +194,14 @@ export function Navbar() {
                 <p className={styles.panelLabel}>Visit</p>
                 <p className={styles.panelAddress}>{siteConfig.address}</p>
               </div>
-              <a
+              <Link
                 className="btn btn--primary btn--block"
-                href="#contact"
+                to="/contact"
                 onClick={closeMenu}
               >
                 Enquire Now
-                <ArrowUpRight size={16} strokeWidth={2} aria-hidden="true" />
-              </a>
+                <ArrowUpRight size={16} strokeWidth={2.2} aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </>

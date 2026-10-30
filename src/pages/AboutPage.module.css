@@ -1,0 +1,499 @@
+.accent {
+  color: var(--color-red);
+}
+
+.introSection {
+  background: var(--color-bg);
+}
+
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.introMedia {
+  position: relative;
+  padding: 1.4rem 1.4rem 1.4rem 0;
+}
+
+.introAccent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 72%;
+  height: 76%;
+  border-radius: var(--radius-xl);
+  background: var(--color-red);
+  opacity: 0.09;
+}
+
+.introFrame {
+  position: relative;
+  overflow: hidden;
+  border: 6px solid var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.introFrame img {
+  width: 100%;
+  aspect-ratio: 4 / 3.4;
+  object-fit: cover;
+}
+
+.introBadge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  padding: 0.8rem 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.introBadge svg {
+  flex: none;
+  color: var(--color-red);
+}
+
+.introBadge > span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.introBadge strong {
+  color: var(--color-charcoal);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.introBadge span span {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.introCopy {
+  max-width: 38rem;
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.1rem;
+}
+
+.copyBlock p {
+  color: var(--color-muted);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.factList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1.4rem;
+}
+
+.factList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  color: var(--color-charcoal);
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.factList svg {
+  flex: none;
+  margin-top: 0.2rem;
+  color: var(--color-red);
+}
+
+.introLink {
+  margin-top: 1.5rem;
+}
+
+.missionSection {
+  overflow: hidden;
+}
+
+.missionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  max-width: 62rem;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+}
+
+.missionCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.missionIcon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.missionCard h3 {
+  margin-top: 1.2rem;
+  color: var(--color-charcoal);
+  font-size: var(--text-h3);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.missionCard p {
+  max-width: 30rem;
+  margin-top: 0.65rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.missionNumber {
+  position: absolute;
+  right: 1.35rem;
+  bottom: 0.9rem;
+  color: var(--color-grey);
+  font-size: 3.4rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.approachSection {
+  background: var(--color-bg);
+}
+
+.approachHeader {
+  max-width: 42rem;
+}
+
+.approachGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.8vw, 1.25rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.approachCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  padding: clamp(1.2rem, 2.2vw, 1.6rem);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.approachCard:hover {
+  border-color: rgba(229, 57, 53, 0.28);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-4px);
+}
+
+.approachTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.approachIcon {
+  display: grid;
+  width: 2.45rem;
+  height: 2.45rem;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.approachNumber {
+  color: var(--color-grey-deep);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.approachCard h3 {
+  margin-top: 1rem;
+  color: var(--color-charcoal);
+  font-size: 0.96rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.approachCard p {
+  margin-top: 0.4rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.facultySection {
+  background: var(--color-white);
+}
+
+.facultyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.facultyCopy {
+  max-width: 38rem;
+}
+
+.supportCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+
+.supportCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  padding: 1rem 1.1rem;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.supportCard:hover {
+  border-color: rgba(229, 57, 53, 0.25);
+  background: var(--color-white);
+}
+
+.supportIcon {
+  display: grid;
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: none;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.supportCard h3 {
+  color: var(--color-charcoal);
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.supportCard p {
+  margin-top: 0.2rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.facultyNote {
+  margin-top: 1.2rem;
+  border-left: 3px solid var(--color-red);
+  background: var(--color-grey-soft);
+  padding: 0.75rem 0.9rem;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.facultyMedia {
+  position: relative;
+  padding: 0 0 1.5rem 1.5rem;
+}
+
+.facultyFrame {
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.facultyFrame img {
+  width: 100%;
+  aspect-ratio: 4 / 4.2;
+  object-fit: cover;
+}
+
+.facultyAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
+  border: 2px solid var(--color-red);
+  opacity: 0.55;
+}
+
+.facultyQuote {
+  position: absolute;
+  right: -0.8rem;
+  bottom: 0.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  max-width: 15rem;
+  border-radius: var(--radius-md);
+  background: var(--color-charcoal);
+  padding: 0.9rem 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.facultyQuote span {
+  color: var(--color-red);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 0.8;
+}
+
+.facultyQuote p {
+  color: var(--color-white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.whySection {
+  background: var(--color-grey-soft);
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.4rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.whyCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  padding: clamp(1.4rem, 2.6vw, 1.9rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.whyNumber {
+  color: var(--color-red);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.whyCard h3 {
+  margin-top: 0.8rem;
+  color: var(--color-charcoal);
+  font-size: var(--text-h4);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+.whyCard p {
+  margin-top: 0.45rem;
+  color: var(--color-muted);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.whyCta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+@media (max-width: 1000px) {
+  .introGrid,
+  .facultyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .introMedia {
+    max-width: 34rem;
+  }
+
+  .facultyMedia {
+    justify-self: start;
+    width: min(100%, 30rem);
+  }
+
+  .approachGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr;
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .missionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .approachGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .introMedia {
+    padding: 1.1rem 1.1rem 1.1rem 0;
+  }
+
+  .introBadge {
+    right: 0;
+  }
+
+  .facultyMedia {
+    padding: 0 0 1.25rem 1.1rem;
+  }
+
+  .facultyQuote {
+    right: 0;
+  }
+}

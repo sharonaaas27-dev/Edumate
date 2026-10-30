@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { CSSProperties, FormEvent } from 'react';
+import type { FormEvent } from 'react';
 import {
   AlertCircle,
   ArrowUpRight,
@@ -9,23 +9,15 @@ import {
   Copy,
   Info,
   Loader2,
-  Mail,
   MapPin,
-  Phone,
   ShieldCheck,
 } from 'lucide-react';
 import { courses } from '../data/courses';
 import { siteConfig } from '../data/siteConfig';
-import { SectionHeading } from './SectionHeading';
 import styles from './ContactSection.module.css';
 
-export interface CourseSelection {
-  course: string;
-  token: number;
-}
-
 interface ContactSectionProps {
-  courseSelection: CourseSelection | null;
+  initialCourse?: string;
 }
 
 interface FormValues {
@@ -139,7 +131,7 @@ async function copyToClipboard(text: string) {
   }
 }
 
-export function ContactSection({ courseSelection }: ContactSectionProps) {
+export function ContactSection({ initialCourse }: ContactSectionProps) {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<FormStatus>('idle');
@@ -149,16 +141,13 @@ export function ContactSection({ courseSelection }: ContactSectionProps) {
   const copyTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!courseSelection) {
+    if (!initialCourse) {
       return;
     }
 
-    setValues((current) => ({ ...current, course: courseSelection.course }));
+    setValues((current) => ({ ...current, course: initialCourse }));
     setErrors((current) => ({ ...current, course: undefined }));
-    setStatus((current) =>
-      current === 'prepared' || current === 'success' ? 'idle' : current,
-    );
-  }, [courseSelection]);
+  }, [initialCourse]);
 
   useEffect(() => {
     if (status === 'prepared' || status === 'success') {
@@ -273,522 +262,398 @@ export function ContactSection({ courseSelection }: ContactSectionProps) {
   }
 
   return (
-    <section
-      className={`section ${styles.section}`}
-      id="contact"
-      tabIndex={-1}
-      aria-labelledby="contact-heading"
-    >
-      <div className="container">
-        <div className={styles.header}>
-          <SectionHeading
-            eyebrow="Contact"
-            title={
-              <>
-                Let’s start a
-                <span className="serif">conversation.</span>
-              </>
-            }
-            titleId="contact-heading"
-          />
+    <div className={styles.layout}>
+      <div className={styles.formCard}>
+        {status === 'prepared' ? (
+          <div className={styles.panel} ref={panelRef} tabIndex={-1}>
+            <span className={styles.panelIcon}>
+              <ClipboardCheck size={22} strokeWidth={1.9} aria-hidden="true" />
+            </span>
+            <h3 className={styles.panelTitle}>Your enquiry is ready.</h3>
+            <p className={styles.panelText}>
+              Online submission is not connected yet, so nothing has been sent. Copy
+              your enquiry below and contact Edumate directly.
+            </p>
 
-          <p
-            className={styles.headerIntro}
-            data-reveal
-            style={{ '--reveal-delay': '100ms' } as CSSProperties}
-          >
-            Share a few details and the course you are interested in. This is an
-            enquiry, not an admission application.
-          </p>
-        </div>
+            <textarea
+              className={styles.preparedText}
+              value={preparedText}
+              readOnly
+              rows={8}
+              aria-label="Prepared enquiry text"
+              onFocus={(event) => event.currentTarget.select()}
+            />
 
-        <div className={styles.layout}>
-          <div
-            className={styles.formCard}
-            data-reveal
-            style={{ '--reveal-delay': '120ms' } as CSSProperties}
-          >
-            {status === 'prepared' ? (
-              <div className={styles.panel} ref={panelRef} tabIndex={-1}>
-                <span className={styles.panelIcon}>
-                  <ClipboardCheck size={22} strokeWidth={1.7} aria-hidden="true" />
-                </span>
-                <h3 className={styles.panelTitle}>Your enquiry is ready.</h3>
-                <p className={styles.panelText}>
-                  Online submission is not connected yet, so nothing has been
-                  sent. Copy your enquiry below and contact Edumate directly.
-                </p>
+            <div className={styles.panelActions}>
+              <button className={styles.panelPrimary} type="button" onClick={handleCopy}>
+                <Copy size={15} strokeWidth={2.2} aria-hidden="true" />
+                {copyState === 'copied' ? 'Copied' : 'Copy enquiry'}
+              </button>
+              <button
+                className={styles.panelSecondary}
+                type="button"
+                onClick={() => {
+                  setCopyState('idle');
+                  setStatus('idle');
+                }}
+              >
+                Edit details
+              </button>
+            </div>
 
-                <textarea
-                  className={styles.preparedText}
-                  value={preparedText}
-                  readOnly
-                  rows={8}
-                  aria-label="Prepared enquiry text"
-                  onFocus={(event) => event.currentTarget.select()}
-                />
-
-                <div className={styles.panelActions}>
-                  <button
-                    className={styles.panelPrimary}
-                    type="button"
-                    onClick={handleCopy}
-                  >
-                    <Copy size={15} strokeWidth={2} aria-hidden="true" />
-                    {copyState === 'copied' ? 'Copied' : 'Copy enquiry'}
-                  </button>
-                  <button
-                    className={styles.panelSecondary}
-                    type="button"
-                    onClick={() => {
-                      setCopyState('idle');
-                      setStatus('idle');
-                    }}
-                  >
-                    Edit details
-                  </button>
-                </div>
-
-                <p
-                  className={`${styles.panelHint} ${
-                    copyState === 'failed' ? styles.panelHintError : ''
-                  }`}
-                >
-                  {copyState === 'failed'
-                    ? 'Copy failed. Select the text above and copy it manually.'
-                    : 'Nothing has been sent automatically.'}
-                </p>
-                <span className="sr-only" role="status" aria-live="polite">
-                  {copyState === 'copied'
-                    ? 'Enquiry copied to clipboard.'
-                    : copyState === 'failed'
-                      ? 'Copy failed. Select the text and copy it manually.'
-                      : ''}
-                </span>
+            <p
+              className={`${styles.panelHint} ${
+                copyState === 'failed' ? styles.panelHintError : ''
+              }`}
+            >
+              {copyState === 'failed'
+                ? 'Copy failed. Select the text above and copy it manually.'
+                : 'Nothing has been sent automatically.'}
+            </p>
+            <span className="sr-only" role="status" aria-live="polite">
+              {copyState === 'copied'
+                ? 'Enquiry copied to clipboard.'
+                : copyState === 'failed'
+                  ? 'Copy failed. Select the text and copy it manually.'
+                  : ''}
+            </span>
+          </div>
+        ) : status === 'success' ? (
+          <div className={styles.panel} ref={panelRef} tabIndex={-1}>
+            <span className={styles.panelIcon}>
+              <CheckCircle2 size={22} strokeWidth={1.9} aria-hidden="true" />
+            </span>
+            <h3 className={styles.panelTitle}>Enquiry submitted.</h3>
+            <p className={styles.panelText}>
+              Your enquiry has been sent. Edumate can follow up using the details you
+              provided.
+            </p>
+            <div className={styles.panelActions}>
+              <button className={styles.panelPrimary} type="button" onClick={resetForm}>
+                Send another enquiry
+                <ArrowUpRight size={15} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className={styles.formHeader}>
+              <div>
+                <span className={styles.formEyebrow}>Enquiry Form</span>
+                <h3 className={styles.formTitle}>Tell us what you are looking for.</h3>
               </div>
-            ) : status === 'success' ? (
-              <div className={styles.panel} ref={panelRef} tabIndex={-1}>
-                <span className={styles.panelIcon}>
-                  <CheckCircle2 size={22} strokeWidth={1.7} aria-hidden="true" />
+              <span className={styles.requiredNote}>
+                <span aria-hidden="true">*</span> Required
+              </span>
+            </div>
+
+            {!siteConfig.enquiryEndpoint ? (
+              <p className={styles.modeNote}>
+                <Info size={15} strokeWidth={2} aria-hidden="true" />
+                <span>
+                  Online submission is not connected yet. This form prepares your
+                  enquiry so you can copy it.
                 </span>
-                <h3 className={styles.panelTitle}>Enquiry submitted.</h3>
-                <p className={styles.panelText}>
-                  Your enquiry has been sent. Edumate can follow up using the
-                  details you provided.
-                </p>
-                <div className={styles.panelActions}>
-                  <button
-                    className={styles.panelPrimary}
-                    type="button"
-                    onClick={resetForm}
-                  >
-                    Send another enquiry
-                    <ArrowUpRight size={15} strokeWidth={2} aria-hidden="true" />
-                  </button>
-                </div>
+              </p>
+            ) : null}
+
+            {status === 'error' ? (
+              <div className={styles.alert} role="alert">
+                <AlertCircle size={16} strokeWidth={2} aria-hidden="true" />
+                <p>We could not send your enquiry. Please try again in a moment.</p>
               </div>
-            ) : (
-              <>
-                <div className={styles.formHeader}>
-                  <div>
-                    <span className={styles.formEyebrow}>Enquiry form</span>
-                    <h3 className={styles.formTitle}>
-                      Tell us what you are looking for.
-                    </h3>
-                  </div>
-                  <span className={styles.requiredNote}>
-                    <span aria-hidden="true">*</span> Required
-                  </span>
-                </div>
+            ) : null}
 
-                {!siteConfig.enquiryEndpoint ? (
-                  <p className={styles.modeNote}>
-                    <Info size={15} strokeWidth={1.8} aria-hidden="true" />
-                    <span>
-                      Online submission is not connected yet. This form prepares
-                      your enquiry so you can copy it.
-                    </span>
-                  </p>
-                ) : null}
-
-                {status === 'error' ? (
-                  <div className={styles.alert} role="alert">
-                    <AlertCircle size={16} strokeWidth={1.8} aria-hidden="true" />
-                    <p>
-                      We could not send your enquiry. Please try again in a
-                      moment.
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              <div className={styles.fields}>
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="enquiry-name">
+                    Name <span className={styles.required}>*</span>
+                  </label>
+                  <input
+                    className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+                    id="enquiry-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Your full name"
+                    value={values.name}
+                    onChange={(event) => setField('name', event.target.value)}
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? 'enquiry-name-error' : undefined}
+                    required
+                  />
+                  {errors.name ? (
+                    <p className={styles.error} id="enquiry-name-error">
+                      {errors.name}
                     </p>
-                  </div>
-                ) : null}
+                  ) : null}
+                </div>
 
-                <form className={styles.form} onSubmit={handleSubmit} noValidate>
-                  <div className={styles.fields}>
-                    <div className={styles.field}>
-                      <label className={styles.label} htmlFor="enquiry-name">
-                        Name <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        className={`${styles.input} ${
-                          errors.name ? styles.inputError : ''
-                        }`}
-                        id="enquiry-name"
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        placeholder="Your full name"
-                        value={values.name}
-                        onChange={(event) => setField('name', event.target.value)}
-                        aria-invalid={Boolean(errors.name)}
-                        aria-describedby={
-                          errors.name ? 'enquiry-name-error' : undefined
-                        }
-                        required
-                      />
-                      {errors.name ? (
-                        <p className={styles.error} id="enquiry-name-error">
-                          {errors.name}
-                        </p>
-                      ) : null}
-                    </div>
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="enquiry-phone">
+                    Phone <span className={styles.required}>*</span>
+                  </label>
+                  <input
+                    className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+                    id="enquiry-phone"
+                    name="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="Phone number"
+                    value={values.phone}
+                    onChange={(event) => setField('phone', event.target.value)}
+                    aria-invalid={Boolean(errors.phone)}
+                    aria-describedby={errors.phone ? 'enquiry-phone-error' : undefined}
+                    required
+                  />
+                  {errors.phone ? (
+                    <p className={styles.error} id="enquiry-phone-error">
+                      {errors.phone}
+                    </p>
+                  ) : null}
+                </div>
 
-                    <div className={styles.field}>
-                      <label className={styles.label} htmlFor="enquiry-phone">
-                        Phone <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        className={`${styles.input} ${
-                          errors.phone ? styles.inputError : ''
-                        }`}
-                        id="enquiry-phone"
-                        name="phone"
-                        type="tel"
-                        inputMode="tel"
-                        autoComplete="tel"
-                        placeholder="Phone number"
-                        value={values.phone}
-                        onChange={(event) => setField('phone', event.target.value)}
-                        aria-invalid={Boolean(errors.phone)}
-                        aria-describedby={
-                          errors.phone ? 'enquiry-phone-error' : undefined
-                        }
-                        required
-                      />
-                      {errors.phone ? (
-                        <p className={styles.error} id="enquiry-phone-error">
-                          {errors.phone}
-                        </p>
-                      ) : null}
-                    </div>
-
-                    <div className={styles.field}>
-                      <label className={styles.label} htmlFor="enquiry-course">
-                        Course of interest{' '}
-                        <span className={styles.required}>*</span>
-                      </label>
-                      <div className={styles.selectWrap}>
-                        <select
-                          className={`${styles.select} ${
-                            errors.course ? styles.inputError : ''
-                          }`}
-                          id="enquiry-course"
-                          name="course"
-                          value={values.course}
-                          onChange={(event) =>
-                            setField('course', event.target.value)
-                          }
-                          aria-invalid={Boolean(errors.course)}
-                          aria-describedby={
-                            errors.course ? 'enquiry-course-error' : undefined
-                          }
-                          required
-                        >
-                          <option value="" disabled>
-                            Select a course
-                          </option>
-                          {courses.map((course) => (
-                            <option key={course.id} value={course.enquiryValue}>
-                              {course.name}
-                            </option>
-                          ))}
-                          <option value="Not sure yet">Not sure yet</option>
-                        </select>
-                        <ChevronDown
-                          className={styles.selectIcon}
-                          size={16}
-                          strokeWidth={1.8}
-                          aria-hidden="true"
-                        />
-                      </div>
-                      {errors.course ? (
-                        <p className={styles.error} id="enquiry-course-error">
-                          {errors.course}
-                        </p>
-                      ) : null}
-                    </div>
-
-                    <div className={styles.field}>
-                      <label className={styles.label} htmlFor="enquiry-time">
-                        Preferred contact time{' '}
-                        <span className={styles.required}>*</span>
-                      </label>
-                      <div className={styles.selectWrap}>
-                        <select
-                          className={`${styles.select} ${
-                            errors.contactTime ? styles.inputError : ''
-                          }`}
-                          id="enquiry-time"
-                          name="contactTime"
-                          value={values.contactTime}
-                          onChange={(event) =>
-                            setField('contactTime', event.target.value)
-                          }
-                          aria-invalid={Boolean(errors.contactTime)}
-                          aria-describedby={
-                            errors.contactTime ? 'enquiry-time-error' : undefined
-                          }
-                          required
-                        >
-                          <option value="" disabled>
-                            Select a time
-                          </option>
-                          {contactTimes.map((time) => (
-                            <option key={time} value={time}>
-                              {time}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown
-                          className={styles.selectIcon}
-                          size={16}
-                          strokeWidth={1.8}
-                          aria-hidden="true"
-                        />
-                      </div>
-                      {errors.contactTime ? (
-                        <p className={styles.error} id="enquiry-time-error">
-                          {errors.contactTime}
-                        </p>
-                      ) : null}
-                    </div>
-
-                    <div className={`${styles.field} ${styles.fieldFull}`}>
-                      <div className={styles.labelRow}>
-                        <label className={styles.label} htmlFor="enquiry-message">
-                          Message <span className={styles.optional}>Optional</span>
-                        </label>
-                        <span className={styles.counter}>
-                          {values.message.length}/600
-                        </span>
-                      </div>
-                      <textarea
-                        className={`${styles.textarea} ${
-                          errors.message ? styles.inputError : ''
-                        }`}
-                        id="enquiry-message"
-                        name="message"
-                        placeholder="Share any questions about courses, schedules or admissions."
-                        value={values.message}
-                        onChange={(event) =>
-                          setField('message', event.target.value)
-                        }
-                        maxLength={600}
-                        aria-invalid={Boolean(errors.message)}
-                        aria-describedby={
-                          errors.message ? 'enquiry-message-error' : undefined
-                        }
-                      />
-                      {errors.message ? (
-                        <p className={styles.error} id="enquiry-message-error">
-                          {errors.message}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
-
-                  <div className={styles.consentField}>
-                    <label className={styles.consentLabel} htmlFor="enquiry-consent">
-                      <input
-                        className={styles.checkbox}
-                        id="enquiry-consent"
-                        name="consent"
-                        type="checkbox"
-                        checked={values.consent}
-                        onChange={(event) =>
-                          setField('consent', event.target.checked)
-                        }
-                        aria-invalid={Boolean(errors.consent)}
-                        aria-describedby={
-                          errors.consent ? 'enquiry-consent-error' : undefined
-                        }
-                        required
-                      />
-                      <span>
-                        I agree to be contacted by Edumate about this enquiry.
-                      </span>
-                    </label>
-                    {errors.consent ? (
-                      <p className={styles.error} id="enquiry-consent-error">
-                        {errors.consent}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  <div className={styles.honeypot} aria-hidden="true">
-                    <label htmlFor="enquiry-website">Website</label>
-                    <input
-                      id="enquiry-website"
-                      name="website"
-                      type="text"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={values.website}
-                      onChange={(event) => setField('website', event.target.value)}
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="enquiry-course">
+                    Course of interest <span className={styles.required}>*</span>
+                  </label>
+                  <div className={styles.selectWrap}>
+                    <select
+                      className={`${styles.select} ${
+                        errors.course ? styles.inputError : ''
+                      }`}
+                      id="enquiry-course"
+                      name="course"
+                      value={values.course}
+                      onChange={(event) => setField('course', event.target.value)}
+                      aria-invalid={Boolean(errors.course)}
+                      aria-describedby={errors.course ? 'enquiry-course-error' : undefined}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select a course
+                      </option>
+                      {courses.map((course) => (
+                        <option key={course.id} value={course.enquiryValue}>
+                          {course.name}
+                        </option>
+                      ))}
+                      <option value="Not sure yet">Not sure yet</option>
+                    </select>
+                    <ChevronDown
+                      className={styles.selectIcon}
+                      size={16}
+                      strokeWidth={2}
+                      aria-hidden="true"
                     />
                   </div>
-
-                  <div className={styles.submitRow}>
-                    <button
-                      className={styles.submit}
-                      type="submit"
-                      disabled={status === 'submitting'}
-                      aria-busy={status === 'submitting'}
-                    >
-                      {status === 'submitting' ? (
-                        <>
-                          <Loader2
-                            className={styles.spinner}
-                            size={16}
-                            strokeWidth={2}
-                            aria-hidden="true"
-                          />
-                          Sending…
-                        </>
-                      ) : (
-                        <>
-                          {siteConfig.enquiryEndpoint
-                            ? 'Send enquiry'
-                            : 'Prepare enquiry'}
-                          <ArrowUpRight
-                            size={16}
-                            strokeWidth={2}
-                            aria-hidden="true"
-                          />
-                        </>
-                      )}
-                    </button>
-                    <p className={styles.privacy}>
-                      <ShieldCheck
-                        size={14}
-                        strokeWidth={1.8}
-                        aria-hidden="true"
-                      />
-                      Your details are used only to respond to this enquiry.
+                  {errors.course ? (
+                    <p className={styles.error} id="enquiry-course-error">
+                      {errors.course}
                     </p>
-                  </div>
-                </form>
-              </>
-            )}
-          </div>
+                  ) : null}
+                </div>
 
-          <aside
-            className={styles.sidebar}
-            data-reveal
-            style={{ '--reveal-delay': '200ms' } as CSSProperties}
-          >
-            <div className={styles.sideCard}>
-              <span className={styles.sideEyebrow}>Direct contact</span>
-              <h3 className={styles.sideTitle}>Reach Edumate</h3>
-
-              <ul className={styles.contactList}>
-                <li className={styles.contactItem}>
-                  <span className={styles.contactIcon}>
-                    <Phone size={16} strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <div>
-                    <span className={styles.contactLabel}>Phone</span>
-                    {siteConfig.contact.telHref ? (
-                      <a
-                        className={styles.contactValue}
-                        href={siteConfig.contact.telHref}
-                      >
-                        {siteConfig.contact.phone}
-                      </a>
-                    ) : (
-                      <span className={styles.unpublished}>
-                        Not yet published
-                      </span>
-                    )}
-                  </div>
-                </li>
-
-                <li className={styles.contactItem}>
-                  <span className={styles.contactIcon}>
-                    <Mail size={16} strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <div>
-                    <span className={styles.contactLabel}>Email</span>
-                    {siteConfig.contact.mailtoHref ? (
-                      <a
-                        className={styles.contactValue}
-                        href={siteConfig.contact.mailtoHref}
-                      >
-                        {siteConfig.contact.email}
-                      </a>
-                    ) : (
-                      <span className={styles.unpublished}>
-                        Not yet published
-                      </span>
-                    )}
-                  </div>
-                </li>
-
-                <li className={styles.contactItem}>
-                  <span className={styles.contactIcon}>
-                    <MapPin size={16} strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <div>
-                    <span className={styles.contactLabel}>Location</span>
-                    <address className={styles.address}>
-                      {siteConfig.address}
-                    </address>
-                    <a
-                      className={styles.mapLink}
-                      href={siteConfig.mapSearchUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                <div className={styles.field}>
+                  <label className={styles.label} htmlFor="enquiry-time">
+                    Preferred contact time <span className={styles.required}>*</span>
+                  </label>
+                  <div className={styles.selectWrap}>
+                    <select
+                      className={`${styles.select} ${
+                        errors.contactTime ? styles.inputError : ''
+                      }`}
+                      id="enquiry-time"
+                      name="contactTime"
+                      value={values.contactTime}
+                      onChange={(event) => setField('contactTime', event.target.value)}
+                      aria-invalid={Boolean(errors.contactTime)}
+                      aria-describedby={
+                        errors.contactTime ? 'enquiry-time-error' : undefined
+                      }
+                      required
                     >
-                      Open map search
-                      <ArrowUpRight
-                        size={13}
-                        strokeWidth={2}
+                      <option value="" disabled>
+                        Select a time
+                      </option>
+                      {contactTimes.map((time) => (
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className={styles.selectIcon}
+                      size={16}
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  {errors.contactTime ? (
+                    <p className={styles.error} id="enquiry-time-error">
+                      {errors.contactTime}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className={`${styles.field} ${styles.fieldFull}`}>
+                  <div className={styles.labelRow}>
+                    <label className={styles.label} htmlFor="enquiry-message">
+                      Message <span className={styles.optional}>Optional</span>
+                    </label>
+                    <span className={styles.counter}>{values.message.length}/600</span>
+                  </div>
+                  <textarea
+                    className={`${styles.textarea} ${
+                      errors.message ? styles.inputError : ''
+                    }`}
+                    id="enquiry-message"
+                    name="message"
+                    placeholder="Share any questions about courses, schedules or admissions."
+                    value={values.message}
+                    onChange={(event) => setField('message', event.target.value)}
+                    maxLength={600}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={errors.message ? 'enquiry-message-error' : undefined}
+                  />
+                  {errors.message ? (
+                    <p className={styles.error} id="enquiry-message-error">
+                      {errors.message}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className={styles.consentField}>
+                <label className={styles.consentLabel} htmlFor="enquiry-consent">
+                  <input
+                    className={styles.checkbox}
+                    id="enquiry-consent"
+                    name="consent"
+                    type="checkbox"
+                    checked={values.consent}
+                    onChange={(event) => setField('consent', event.target.checked)}
+                    aria-invalid={Boolean(errors.consent)}
+                    aria-describedby={errors.consent ? 'enquiry-consent-error' : undefined}
+                    required
+                  />
+                  <span>I agree to be contacted by Edumate about this enquiry.</span>
+                </label>
+                {errors.consent ? (
+                  <p className={styles.error} id="enquiry-consent-error">
+                    {errors.consent}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className={styles.honeypot} aria-hidden="true">
+                <label htmlFor="enquiry-website">Website</label>
+                <input
+                  id="enquiry-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={values.website}
+                  onChange={(event) => setField('website', event.target.value)}
+                />
+              </div>
+
+              <div className={styles.submitRow}>
+                <button
+                  className={styles.submit}
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  aria-busy={status === 'submitting'}
+                >
+                  {status === 'submitting' ? (
+                    <>
+                      <Loader2
+                        className={styles.spinner}
+                        size={16}
+                        strokeWidth={2.2}
                         aria-hidden="true"
                       />
-                    </a>
-                  </div>
-                </li>
-              </ul>
-
-              {!siteConfig.contact.phone || !siteConfig.contact.email ? (
-                <p className={styles.sideNote}>
-                  Phone and email details will be published once confirmed. The
-                  map link opens a Google Maps search.
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      {siteConfig.enquiryEndpoint ? 'Send enquiry' : 'Prepare enquiry'}
+                      <ArrowUpRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+                <p className={styles.privacy}>
+                  <ShieldCheck size={14} strokeWidth={2} aria-hidden="true" />
+                  Your details are used only to respond to this enquiry.
                 </p>
-              ) : null}
-            </div>
-
-            <div className={styles.sideCardAlt}>
-              <span className={styles.sideEyebrow}>Before you enquire</span>
-              <ul className={styles.checkList}>
-                <li>Mention the course you are interested in.</li>
-                <li>Share a phone number where you can be reached.</li>
-                <li>
-                  Include any questions about schedules or admissions.
-                </li>
-              </ul>
-            </div>
-          </aside>
-        </div>
+              </div>
+            </form>
+          </>
+        )}
       </div>
-    </section>
+
+      <aside className={styles.sidebar}>
+        <div className={styles.sideCardDark}>
+          <span className={styles.sideEyebrow}>What happens next</span>
+          <h3 className={styles.sideTitleDark}>A simple enquiry process.</h3>
+          <ol className={styles.steps}>
+            <li className={styles.step}>
+              <span className={styles.stepNumber}>01</span>
+              <div>
+                <span className={styles.stepTitle}>Share your details</span>
+                <p className={styles.stepText}>
+                  Tell us your name, phone number and course of interest.
+                </p>
+              </div>
+            </li>
+            <li className={styles.step}>
+              <span className={styles.stepNumber}>02</span>
+              <div>
+                <span className={styles.stepTitle}>Edumate follows up</span>
+                <p className={styles.stepText}>
+                  The centre can contact you at your preferred time.
+                </p>
+              </div>
+            </li>
+            <li className={styles.step}>
+              <span className={styles.stepNumber}>03</span>
+              <div>
+                <span className={styles.stepTitle}>Plan the next step</span>
+                <p className={styles.stepText}>
+                  Discuss schedules, eligibility and admission information.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div className={styles.sideCard}>
+          <span className={styles.sideEyebrow}>Find the centre</span>
+          <h3 className={styles.sideTitle}>Nilamel–Alummoodu, Neyyattinkara</h3>
+          <p className={styles.address}>
+            <MapPin size={15} strokeWidth={2} aria-hidden="true" />
+            {siteConfig.address}
+          </p>
+          <a
+            className={styles.mapLink}
+            href={siteConfig.mapSearchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open map search
+            <ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
+          </a>
+          {!siteConfig.contact.phone || !siteConfig.contact.email ? (
+            <p className={styles.sideNote}>
+              Phone and email details will be published once confirmed. The map link
+              opens a Google Maps search.
+            </p>
+          ) : null}
+        </div>
+      </aside>
+    </div>
   );
 }

@@ -1,0 +1,449 @@
+.accent {
+  color: var(--color-red);
+}
+
+.cardsSection {
+  background: var(--color-bg);
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.filterTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.filterTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  padding: 0.62rem 0.95rem;
+  color: var(--color-charcoal);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.4;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.filterTab:hover {
+  border-color: rgba(229, 57, 53, 0.4);
+  color: var(--color-red);
+}
+
+.filterActive,
+.filterActive:hover {
+  border-color: var(--color-red);
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+.filterCount {
+  display: grid;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-grey-soft);
+  padding-inline: 0.3rem;
+  color: var(--color-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.filterActive .filterCount {
+  background: rgba(255, 255, 255, 0.22);
+  color: var(--color-white);
+}
+
+.filterNote {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.filterNote svg {
+  color: var(--color-red);
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: stretch;
+}
+
+.helpCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: var(--radius-lg);
+  background: var(--color-charcoal);
+  padding: clamp(1.5rem, 2.6vw, 2rem);
+  color: var(--color-white);
+}
+
+.helpIcon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(229, 57, 53, 0.18);
+  color: var(--color-red);
+}
+
+.helpCard h2 {
+  margin-top: 1.5rem;
+  color: var(--color-white);
+  font-size: var(--text-h3);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.helpCard p {
+  margin-top: 0.7rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.helpCard .btn {
+  width: 100%;
+  margin-top: 1.75rem;
+}
+
+.detailsSection {
+  overflow: hidden;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  scroll-margin-top: calc(var(--nav-height) + 2rem);
+}
+
+.detailReverse .detailMedia {
+  order: 2;
+}
+
+.detailMedia {
+  position: relative;
+  padding: 0 0 1.2rem 1.2rem;
+}
+
+.detailMedia img {
+  width: 100%;
+  aspect-ratio: 4 / 3.3;
+  border-radius: var(--radius-xl);
+  object-fit: cover;
+  box-shadow: var(--shadow-card);
+}
+
+.detailBadge {
+  position: absolute;
+  top: 1rem;
+  left: 2.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  padding: 0.35rem 0.75rem;
+  color: var(--color-red);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+}
+
+.detailAccent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
+  border: 2px solid var(--color-red);
+  opacity: 0.55;
+}
+
+.detailContent {
+  max-width: 38rem;
+}
+
+.detailEyebrow {
+  color: var(--color-red);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.detailTitle {
+  margin-top: 0.6rem;
+  color: var(--color-charcoal);
+  font-size: var(--text-h2);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.detailOverview {
+  margin-top: 0.8rem;
+  color: var(--color-muted);
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+
+.detailBlock {
+  margin-top: 1.25rem;
+}
+
+.detailLabel {
+  display: block;
+  color: var(--color-charcoal);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.subjectList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.focusList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+}
+
+.focusItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  color: var(--color-charcoal);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.focusIcon {
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+  place-items: center;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.detailMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1.35rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+
+.detailMeta span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.detailMeta strong {
+  color: var(--color-charcoal);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.detailActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.note svg {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--color-red);
+}
+
+.includedSection {
+  background: var(--color-bg);
+}
+
+.includedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.4rem);
+  max-width: 62rem;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+}
+
+.includedCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  padding: clamp(1.3rem, 2.4vw, 1.75rem);
+  box-shadow: var(--shadow-sm);
+}
+
+.includedIcon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--color-red-soft);
+  color: var(--color-red);
+}
+
+.includedCard h3 {
+  margin-top: 1rem;
+  color: var(--color-charcoal);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.includedCard p {
+  margin-top: 0.4rem;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 1000px) {
+  .courseGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .helpCard {
+    grid-column: 1 / -1;
+  }
+
+  .helpCard .btn {
+    width: auto;
+  }
+
+  .detail {
+    grid-template-columns: 1fr;
+  }
+
+  .detailReverse .detailMedia {
+    order: 0;
+  }
+
+  .detailMedia {
+    max-width: 36rem;
+  }
+
+  .detailContent {
+    max-width: 42rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .filterRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .courseGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .includedGrid {
+    grid-template-columns: 1fr;
+    max-width: 34rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .filterTab {
+    flex: 1;
+    justify-content: center;
+    padding-inline: 0.7rem;
+  }
+
+  .filterTabs {
+    width: 100%;
+  }
+
+  .filterTab:nth-child(3) {
+    flex-basis: 100%;
+  }
+
+  .detailMedia {
+    padding: 0 0 1rem 1rem;
+  }
+
+  .detailBadge {
+    left: 1.8rem;
+  }
+
+  .detailActions .btn {
+    width: 100%;
+  }
+}
