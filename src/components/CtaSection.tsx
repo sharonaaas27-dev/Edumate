@@ -14,7 +14,7 @@ interface CtaSectionProps {
 
 export function CtaSection({
   title = 'Your Future Starts Here',
-  description = 'Take the next step in your preparation. Talk to Edumate about the NEET or NDA programme and find the right starting point for your goals.',
+  description = 'Take the next step in your preparation. Talk to Edumate about the right entrance coaching programme and find a clear starting point for your goals.',
   primaryLabel = 'Enroll Now',
   primaryTo = '/contact',
   secondaryLabel = 'Explore Courses',

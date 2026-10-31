@@ -12,7 +12,10 @@ interface RouteMeta {
 }
 
 export const routeMeta: Record<string, RouteMeta> = {
-  '/': { title: 'Edumate Entrance Coaching Centre | NEET & NDA Preparation', navLabel: 'Home' },
+  '/': {
+    title: 'Edumate Entrance Coaching Centre | NEET, KEAM, JEE, NDA, CUET & IMUCET',
+    navLabel: 'Home',
+  },
   '/about': { title: 'About Us | Edumate Entrance Coaching Centre', navLabel: 'About Us' },
   '/courses': { title: 'Courses | Edumate Entrance Coaching Centre', navLabel: 'Courses' },
   '/facilities': { title: 'Facilities | Edumate Entrance Coaching Centre', navLabel: 'Facilities' },

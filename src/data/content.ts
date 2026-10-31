@@ -126,8 +126,8 @@ export const featureHighlights: FeatureHighlight[] = [
 ];
 
 export const aboutStats = [
-  { value: '02', label: 'Entrance programmes' },
-  { value: '03', label: 'Learning stages' },
+  { value: '06', label: 'Entrance exams' },
+  { value: '04', label: 'Course formats' },
   { value: '05', label: 'Preparation stages' },
   { value: 'Kerala', label: 'Neyyattinkara centre' },
 ];

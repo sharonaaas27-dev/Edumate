@@ -32,7 +32,7 @@ export function AboutPage() {
             <span className={styles.accent}> prepare and grow.</span>
           </>
         }
-        description="Edumate Entrance Coaching Centre supports students working toward NEET and NDA with structured preparation, consistent practice and clear guidance for students and parents."
+        description="Edumate Entrance Coaching Centre supports students preparing for NEET, KEAM, JEE, NDA, CUET and IMUCET with structured preparation, consistent practice and clear guidance for students and parents."
         image={{
           src: '/images/classroom-learning-900.jpg',
           srcSet:
@@ -94,8 +94,9 @@ export function AboutPage() {
               </p>
               <p>
                 Edumate is an entrance coaching centre in Nilamel–Alummoodu,
-                Neyyattinkara, focused on preparation for NEET and NDA entrance
-                examinations. The centre supports students and parents with direct
+                Neyyattinkara, preparing students for NEET, KEAM, JEE, NDA, CUET
+                and IMUCET through regular, crash, repeater and foundation
+                courses. The centre supports students and parents with direct
                 information about programmes, schedules and admissions.
               </p>
             </div>
@@ -103,15 +104,15 @@ export function AboutPage() {
             <ul className={styles.factList} data-reveal>
               <li>
                 <Check size={14} strokeWidth={2.6} aria-hidden="true" />
-                NEET and NDA preparation pathways
+                Six entrance examination pathways
               </li>
               <li>
                 <Check size={14} strokeWidth={2.6} aria-hidden="true" />
-                Structured learning and consistent practice
+                Regular, crash, repeater and foundation course formats
               </li>
               <li>
                 <Check size={14} strokeWidth={2.6} aria-hidden="true" />
-                Direct enquiry support for students and parents
+                Structured learning and direct enquiry support
               </li>
             </ul>
 
@@ -143,9 +144,10 @@ export function AboutPage() {
               </span>
               <h3>Our Mission</h3>
               <p>
-                To support students preparing for NEET and NDA with focused
-                preparation, structured learning and consistent practice — while
-                keeping students and parents informed about the next step.
+                To support students preparing for NEET, KEAM, JEE, NDA, CUET and
+                IMUCET with focused preparation, structured learning and
+                consistent practice — while keeping students and parents informed
+                about the next step.
               </p>
               <span className={styles.missionNumber} aria-hidden="true">
                 01
@@ -328,7 +330,7 @@ export function AboutPage() {
 
       <CtaSection
         title="Prepare With Purpose"
-        description="Speak with Edumate about NEET or NDA preparation and find a clear starting point for your academic goals."
+        description="Speak with Edumate about entrance exam preparation and find a clear starting point for your academic goals."
         primaryLabel="Enquire About Admission"
       />
     </>

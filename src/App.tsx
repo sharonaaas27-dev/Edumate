@@ -1,5 +1,6 @@
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { Footer } from './components/Footer';
+import { IntroSplash } from './components/IntroSplash';
 import { LineLink } from './components/LineLink';
 import { Navbar } from './components/Navbar';
 import { PageHero } from './components/PageHero';
@@ -77,6 +78,7 @@ export default function App() {
   return (
     <RouterProvider>
       <SiteShell />
+      <IntroSplash />
     </RouterProvider>
   );
 }

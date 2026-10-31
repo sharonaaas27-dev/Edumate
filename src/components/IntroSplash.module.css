@@ -1,0 +1,452 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-intro);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(229, 57, 53, 0.045), transparent 31%),
+    var(--color-white);
+  color: var(--color-charcoal);
+  isolation: isolate;
+}
+
+.overlay::before {
+  content: '';
+  position: absolute;
+  inset: clamp(1rem, 3vw, 2rem);
+  border: 1px solid rgba(37, 37, 37, 0.045);
+  pointer-events: none;
+}
+
+.overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(42vw, 24rem);
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--color-red), transparent);
+  opacity: 0.8;
+}
+
+.isLeaving {
+  animation: overlayOut 620ms var(--ease-in-out) 120ms forwards;
+  pointer-events: none;
+}
+
+.isSkipping {
+  animation: overlayOut 320ms ease 60ms forwards;
+}
+
+.isLeaving .stage {
+  animation: stageOut 340ms var(--ease-in-out) forwards;
+}
+
+.isSkipping .stage {
+  animation-duration: 220ms;
+}
+
+.isLeaving .skip {
+  animation: none;
+  opacity: 0;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(4.5rem, 9vh, 6rem) clamp(1.25rem, 5vw, 3rem) clamp(3.5rem, 7vh, 5rem);
+}
+
+.logoWrap {
+  position: relative;
+  width: min(80vw, 47vh, 440px);
+  width: min(80vw, 47dvh, 440px);
+  aspect-ratio: 750 / 635;
+  flex: none;
+}
+
+.logoWrap::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 57, 53, 0.075), transparent 66%);
+  opacity: 0;
+  animation: glowIn 1200ms var(--ease-out) 1.3s forwards;
+}
+
+.mark {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.page {
+  opacity: 0;
+  transform-box: fill-box;
+  animation: pageIn 820ms var(--ease-out) forwards;
+}
+
+.pageGrey {
+  --page-x: -14px;
+  --page-y: 24px;
+  --page-rotate: -7deg;
+  transform-origin: 38% 82%;
+  animation-delay: 450ms;
+}
+
+.pageGreen {
+  --page-x: -8px;
+  --page-y: 26px;
+  --page-rotate: -4deg;
+  transform-origin: 42% 82%;
+  animation-delay: 680ms;
+}
+
+.pageYellow {
+  --page-x: 4px;
+  --page-y: 24px;
+  --page-rotate: 2deg;
+  transform-origin: 50% 82%;
+  animation-delay: 910ms;
+}
+
+.pageRed {
+  --page-x: 14px;
+  --page-y: 28px;
+  --page-rotate: 6deg;
+  transform-origin: 36% 86%;
+  animation-delay: 1140ms;
+}
+
+.icon {
+  position: absolute;
+  z-index: 3;
+  color: var(--color-charcoal);
+  opacity: 0;
+  filter: drop-shadow(0 4px 8px rgba(37, 37, 37, 0.08));
+  animation: iconIn 680ms var(--ease-out) both;
+}
+
+.icon svg {
+  width: clamp(17px, 2.6vw, 27px);
+  height: auto;
+  stroke-width: 1.65;
+}
+
+.iconCap {
+  top: -1%;
+  left: 2%;
+  color: var(--color-red);
+  --icon-opacity: 0.84;
+  animation-delay: 2280ms;
+}
+
+.iconBulb {
+  top: 1%;
+  right: 1%;
+  --icon-opacity: 0.6;
+  animation-delay: 2410ms;
+}
+
+.iconSigma {
+  top: 49%;
+  right: -3%;
+  color: var(--color-red);
+  --icon-opacity: 0.78;
+  animation-delay: 2540ms;
+}
+
+.iconAtom {
+  right: 4%;
+  bottom: 9%;
+  --icon-opacity: 0.6;
+  animation-delay: 2670ms;
+}
+
+.iconPencil {
+  bottom: 6%;
+  left: 4%;
+  --icon-opacity: 0.6;
+  animation-delay: 2800ms;
+}
+
+.brand {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(0.65rem, 2vh, 1.3rem);
+  text-align: center;
+}
+
+.wordmark {
+  color: var(--color-charcoal);
+  font-size: clamp(2rem, 5.8vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-indent: 0.22em;
+  opacity: 0;
+  animation: riseIn 720ms var(--ease-out) 3.42s forwards;
+}
+
+.subtitle {
+  margin-top: 0.55rem;
+  color: var(--color-charcoal-soft);
+  font-size: clamp(0.58rem, 1.4vw, 0.7rem);
+  font-weight: 800;
+  letter-spacing: clamp(0.18em, 0.45vw, 0.28em);
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: riseIn 640ms var(--ease-out) 3.62s forwards;
+}
+
+.location {
+  margin-top: 0.22rem;
+  color: var(--color-muted);
+  font-size: clamp(0.52rem, 1.1vw, 0.6rem);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: riseIn 620ms var(--ease-out) 3.78s forwards;
+}
+
+.taglineRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.65rem, 2vw, 0.95rem);
+  margin-top: clamp(0.9rem, 2.1vh, 1.25rem);
+  opacity: 0;
+  animation: fadeIn 620ms var(--ease-out) 4.1s forwards;
+}
+
+.rule {
+  width: clamp(1.3rem, 4vw, 2.2rem);
+  height: 1px;
+  flex: none;
+  transform: scaleX(0);
+  background: var(--color-border-strong);
+  animation: ruleIn 560ms var(--ease-out) 4.18s forwards;
+}
+
+.rule:first-child {
+  transform-origin: right;
+}
+
+.rule:last-child {
+  transform-origin: left;
+}
+
+.tagline {
+  color: var(--color-red);
+  font-size: clamp(0.56rem, 1.15vw, 0.65rem);
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  text-indent: 0.24em;
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  top: max(1.2rem, env(safe-area-inset-top) + 0.9rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0.56rem 0.85rem;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  opacity: 0;
+  backdrop-filter: blur(10px);
+  animation: skipIn 450ms var(--ease-out) 750ms forwards;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.skip:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-white);
+  color: var(--color-charcoal);
+}
+
+.skip:disabled {
+  cursor: default;
+}
+
+@keyframes pageIn {
+  0% {
+    opacity: 0;
+    transform: translate(var(--page-x), var(--page-y)) rotate(var(--page-rotate)) scale(0.93);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes iconIn {
+  0% {
+    opacity: 0;
+    transform: translateY(9px) scale(0.68) rotate(-4deg);
+  }
+  100% {
+    opacity: var(--icon-opacity, 0.52);
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes glowIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes riseIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ruleIn {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes skipIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stageOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes overlayOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+.overlay:focus,
+.overlay:focus-visible {
+  outline: none;
+}
+
+.overlay::before {
+    inset: 0.85rem;
+  }
+
+  .logoWrap {
+    width: min(84vw, 44vh, 360px);
+    width: min(84vw, 44dvh, 360px);
+  }
+
+  .skip {
+    top: max(1rem, env(safe-area-inset-top) + 0.75rem);
+    padding: 0.5rem 0.72rem;
+    font-size: 0.64rem;
+  }
+
+  .wordmark {
+    font-size: clamp(1.9rem, 8.5vw, 2.35rem);
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .stage {
+    padding-block: 2rem;
+  }
+
+  .logoWrap {
+    width: min(58vw, 43vh, 280px);
+    width: min(58vw, 43dvh, 280px);
+  }
+
+  .brand {
+    margin-top: 0.35rem;
+  }
+
+  .wordmark {
+    font-size: 1.7rem;
+  }
+
+  .subtitle {
+    margin-top: 0.35rem;
+    font-size: 0.55rem;
+  }
+
+  .location {
+    margin-top: 0.1rem;
+  }
+
+  .taglineRow {
+    margin-top: 0.55rem;
+  }
+}

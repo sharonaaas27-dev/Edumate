@@ -11,6 +11,7 @@ import { CtaSection } from '../components/CtaSection';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
 import { courses } from '../data/courses';
+import { batchCourses, entranceExams } from '../data/homeContent';
 import { siteConfig } from '../data/siteConfig';
 import { useRoute } from '../router';
 import styles from './ContactPage.module.css';
@@ -18,11 +19,12 @@ import styles from './ContactPage.module.css';
 export function ContactPage() {
   const { query } = useRoute();
   const requestedCourse = query.get('course') ?? '';
-  const initialCourse =
+  const requestedCourseIsValid =
     courses.some((course) => course.enquiryValue === requestedCourse) ||
-    requestedCourse === 'Not sure yet'
-      ? requestedCourse
-      : undefined;
+    entranceExams.some((exam) => exam.enquiryValue === requestedCourse) ||
+    batchCourses.some((course) => course.enquiryValue === requestedCourse) ||
+    requestedCourse === 'Not sure yet';
+  const initialCourse = requestedCourseIsValid ? requestedCourse : undefined;
 
   const contactCards = [
     {
@@ -194,7 +196,7 @@ export function ContactPage() {
 
       <CtaSection
         title="Ready to Begin?"
-        description="Talk to Edumate about NEET or NDA preparation, schedules and admission information."
+        description="Talk to Edumate about entrance exam preparation, course formats, schedules and admission information."
         primaryLabel="Start an Enquiry"
         secondaryLabel="Explore Courses"
       />

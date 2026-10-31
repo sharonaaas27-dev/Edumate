@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { courses } from '../data/courses';
+import { batchCourses, entranceExams } from '../data/homeContent';
 import { siteConfig } from '../data/siteConfig';
 import styles from './ContactSection.module.css';
 
@@ -45,6 +46,10 @@ const initialValues: FormValues = {
 };
 
 const contactTimes = ['Morning', 'Afternoon', 'Evening', 'Any time'];
+
+const additionalExamOptions = entranceExams.filter(
+  (exam) => !courses.some((course) => course.enquiryValue === exam.enquiryValue),
+);
 
 const fieldIds: Record<keyof FormValues, string> = {
   name: 'enquiry-name',
@@ -417,7 +422,7 @@ export function ContactSection({ initialCourse }: ContactSectionProps) {
 
                 <div className={styles.field}>
                   <label className={styles.label} htmlFor="enquiry-course">
-                    Course of interest <span className={styles.required}>*</span>
+                    Course or batch of interest <span className={styles.required}>*</span>
                   </label>
                   <div className={styles.selectWrap}>
                     <select
@@ -433,13 +438,27 @@ export function ContactSection({ initialCourse }: ContactSectionProps) {
                       required
                     >
                       <option value="" disabled>
-                        Select a course
+                        Select a course or batch
                       </option>
-                      {courses.map((course) => (
-                        <option key={course.id} value={course.enquiryValue}>
-                          {course.name}
-                        </option>
-                      ))}
+                      <optgroup label="Entrance programmes">
+                        {courses.map((course) => (
+                          <option key={course.id} value={course.enquiryValue}>
+                            {course.name}
+                          </option>
+                        ))}
+                        {additionalExamOptions.map((exam) => (
+                          <option key={exam.id} value={exam.enquiryValue}>
+                            {exam.name} Entrance Coaching
+                          </option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Batch programmes">
+                        {batchCourses.map((course) => (
+                          <option key={course.id} value={course.enquiryValue}>
+                            {course.name}
+                          </option>
+                        ))}
+                      </optgroup>
                       <option value="Not sure yet">Not sure yet</option>
                     </select>
                     <ChevronDown

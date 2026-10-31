@@ -156,9 +156,8 @@
 
 .examGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(1rem, 2vw, 1.4rem);
-  max-width: 62rem;
   margin: clamp(2rem, 4vw, 3rem) auto 0;
 }
 
@@ -381,7 +380,8 @@
     max-width: none;
   }
 
-  .stepsGrid {
+  .stepsGrid,
+  .examGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

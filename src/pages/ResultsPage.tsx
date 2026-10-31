@@ -4,47 +4,43 @@ import {
   Award,
   BadgeCheck,
   BookOpen,
+  Calculator,
   Check,
+  DraftingCompass,
   GraduationCap,
   Info,
   MessageCircle,
   PenLine,
   Quote,
   SearchCheck,
-  ShieldCheck,
-  Target,
+  Ship,
+  Shield,
+  Stethoscope,
 } from 'lucide-react';
 import { CtaSection } from '../components/CtaSection';
 import { LineLink } from '../components/LineLink';
 import { PageHero } from '../components/PageHero';
 import { SectionHeading } from '../components/SectionHeading';
 import { learningSteps } from '../data/content';
+import { entranceExams } from '../data/homeContent';
 import { Link } from '../router';
 import styles from './ResultsPage.module.css';
 
 const stepIcons = [BookOpen, PenLine, SearchCheck, GraduationCap];
 
+const examIcons = {
+  medical: Stethoscope,
+  kerala: DraftingCompass,
+  engineering: Calculator,
+  defence: Shield,
+  university: GraduationCap,
+  maritime: Ship,
+} as const;
+
 const verificationPoints = [
   'Results are published only after verification.',
   'Student stories are shared with permission.',
   'Current information is available directly from the centre.',
-];
-
-const examCards = [
-  {
-    icon: Target,
-    label: 'Medical Entrance',
-    title: 'NEET',
-    description:
-      'NEET preparation details and current result information are available directly from Edumate.',
-  },
-  {
-    icon: ShieldCheck,
-    label: 'Defence Entrance',
-    title: 'NDA',
-    description:
-      'NDA preparation details and current result information are available directly from Edumate.',
-  },
 ];
 
 export function ResultsPage() {
@@ -125,45 +121,50 @@ export function ResultsPage() {
         <div className="container">
           <SectionHeading
             eyebrow="Examination Categories"
-            title={
-              <>
-                Preparation for
-                <span className={styles.accent}> two entrance pathways.</span>
-              </>
-            }
-            description="Edumate focuses on NEET and NDA entrance examination preparation. Current result information for each pathway is available on enquiry."
-            align="center"
-          />
+              title={
+                <>
+                  Preparation for
+                  <span className={styles.accent}> six entrance pathways.</span>
+                </>
+              }
+              description="Edumate prepares students for NEET, KEAM, JEE, NDA, CUET and IMUCET. Current result information for each pathway is available on enquiry."
+              align="center"
+            />
 
-          <div className={styles.examGrid}>
-            {examCards.map((exam, index) => {
-              const Icon = exam.icon;
-              return (
-                <article
-                  className={styles.examCard}
-                  key={exam.title}
-                  data-reveal
-                  style={{ '--reveal-delay': `${index * 90}ms` } as CSSProperties}
-                >
-                  <div className={styles.examTop}>
-                    <span className={styles.examIcon} aria-hidden="true">
-                      <Icon size={22} strokeWidth={2} />
-                    </span>
-                    <span className={styles.examLabel}>{exam.label}</span>
-                  </div>
-                  <h3>{exam.title}</h3>
-                  <p>{exam.description}</p>
-                  <Link
-                    className={styles.examLink}
-                    to={`/contact?course=${encodeURIComponent(`${exam.title} Entrance Coaching`)}`}
+            <div className={styles.examGrid}>
+              {entranceExams.map((exam, index) => {
+                const Icon = examIcons[exam.icon];
+                return (
+                  <article
+                    className={styles.examCard}
+                    key={exam.id}
+                    data-reveal
+                    style={{ '--reveal-delay': `${index * 70}ms` } as CSSProperties}
                   >
-                    Enquire about {exam.title}
-                    <ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
-                  </Link>
-                </article>
-              );
-            })}
-          </div>
+                    <div className={styles.examTop}>
+                      <span className={styles.examIcon} aria-hidden="true">
+                        <Icon size={22} strokeWidth={2} />
+                      </span>
+                      <span className={styles.examLabel}>
+                        {exam.category} Entrance
+                      </span>
+                    </div>
+                    <h3>{exam.name}</h3>
+                    <p>
+                      {exam.name} preparation details and current result
+                      information are available directly from Edumate.
+                    </p>
+                    <Link
+                      className={styles.examLink}
+                      to={`/contact?course=${encodeURIComponent(exam.enquiryValue)}`}
+                    >
+                      Enquire about {exam.name}
+                      <ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
         </div>
       </section>
 

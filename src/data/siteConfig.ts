@@ -15,7 +15,7 @@ export const siteConfig = {
   descriptor: 'Entrance Coaching Centre',
   tagline: 'Learn · Grow · Achieve',
   description:
-    'Entrance examination preparation for students working toward NEET and NDA, located in Nilamel–Alummoodu, Neyyattinkara, Kerala.',
+    'Entrance examination preparation for NEET, KEAM, JEE, NDA, CUET and IMUCET, located in Nilamel–Alummoodu, Neyyattinkara, Kerala.',
   location: {
     locality: 'Nilamel–Alummoodu',
     city: 'Neyyattinkara',

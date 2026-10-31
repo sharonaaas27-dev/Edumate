@@ -75,6 +75,7 @@
   --z-menu: 110;
   --z-floating: 120;
   --z-dialog: 200;
+  --z-intro: 1000;
 }
 
 @media (max-width: 900px) {
