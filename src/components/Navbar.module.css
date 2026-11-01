@@ -269,6 +269,10 @@
     display: none;
   }
 
+  .actions {
+    margin-left: auto;
+  }
+
   .toggle {
     display: grid;
   }

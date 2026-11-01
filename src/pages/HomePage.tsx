@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import type { CSSProperties } from 'react';
 import {
   ArrowRight,
@@ -7,45 +8,53 @@ import {
   Calculator,
   CalendarRange,
   Camera,
+  ChartNoAxesColumnIncreasing,
+  Check,
+  ClipboardList,
   Compass,
-  DraftingCompass,
-  FileCheck2,
   GraduationCap,
   Headphones,
   HeartHandshake,
   IdCard,
   Info,
   Landmark,
+  Laptop,
   MapPin,
-  MessageCircle,
   MessageCircleQuestion,
+  Monitor,
   MonitorPlay,
+  PhoneCall,
+  PlayCircle,
+  Presentation,
   Quote,
-  Repeat2,
   RotateCcw,
+  ChevronLeft,
+  ChevronRight,
   School,
+  ShieldCheck as ShieldOutline,
   Ship,
   Shield,
   ShieldCheck,
   Sprout,
+  Star,
   Stethoscope,
   Target,
   Trophy,
   UserRound,
   UsersRound,
-  Video,
   Zap,
+  FlaskConical,
+  LibraryBig,
 } from 'lucide-react';
 import { CtaSection } from '../components/CtaSection';
-import { LineLink } from '../components/LineLink';
 import { SectionHeading } from '../components/SectionHeading';
 import { aboutStats } from '../data/content';
 import {
   batchCourses,
   courseModes,
   entranceExams,
+  facilities,
   resultSlots,
-  resultsGroupPhoto,
   testimonialSlots,
 } from '../data/homeContent';
 import { Link } from '../router';
@@ -54,7 +63,7 @@ import styles from './HomePage.module.css';
 const batchIcons = {
   regular: CalendarRange,
   crash: Zap,
-  repeater: Repeat2,
+  repeater: RotateCcw,
   foundation: Sprout,
 } as const;
 
@@ -68,22 +77,38 @@ const examIcons = {
 } as const;
 
 const modeIcons = {
-  online: MonitorPlay,
+  online: Laptop,
   offline: School,
 } as const;
 
 const featureIcons = {
-  video: Video,
-  exam: FileCheck2,
+  video: MonitorPlay,
+  exam: ClipboardList,
   doubt: MessageCircleQuestion,
-  rewatch: RotateCcw,
+  rewatch: PlayCircle,
   print: BookOpen,
-  mentor: Headphones,
-  classroom: DraftingCompass,
+  mentor: PhoneCall,
+  classroom: School,
   'student-id': IdCard,
 } as const;
 
+const facilityIcons = {
+  classroom: Presentation,
+  materials: BookOpen,
+  digital: Monitor,
+  library: LibraryBig,
+  practice: FlaskConical,
+  safe: ShieldOutline,
+} as const;
+
 const statIcons = [Target, BookOpen, Compass, MapPin] as const;
+
+const achievementHighlights = [
+  { title: 'Top Ranks', description: 'Across Entrance Examinations.', icon: GraduationCap },
+  { title: 'Higher Education', description: 'In Leading Institutions.', icon: UsersRound },
+  { title: 'Consistent Growth', description: 'Year After Year.', icon: ChartNoAxesColumnIncreasing },
+  { title: 'Trusted By', description: 'Students & Parents.', icon: Star },
+] as const;
 
 const trustFeatures = [
   { label: 'Experienced Faculty', icon: GraduationCap },
@@ -94,6 +119,24 @@ const trustFeatures = [
 ] as const;
 
 export function HomePage() {
+  const resultCarouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollResults = (direction: 'previous' | 'next') => {
+    const carousel = resultCarouselRef.current;
+    if (!carousel) {
+      return;
+    }
+
+    const card = carousel.querySelector<HTMLElement>('[data-result-card]');
+    const distance = card ? card.offsetWidth + 16 : carousel.clientWidth;
+    carousel.scrollBy({
+      left: direction === 'next' ? distance : -distance,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'instant'
+        : 'smooth',
+    });
+  };
+
   return (
     <>
       <section className={styles.hero} aria-labelledby="hero-heading">
@@ -193,6 +236,7 @@ export function HomePage() {
               <figcaption>Representative photo</figcaption>
             </figure>
           </div>
+
         </div>
 
         <div className={`container ${styles.heroFeatureWrap}`}>
@@ -212,156 +256,98 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className={styles.examsSection} aria-labelledby="exams-heading">
-        <div className="container">
-          <div className={styles.examsTop}>
-            <SectionHeading
-              eyebrow="Entrance Examinations"
-              title={
-                <>
-                  Your Dream Career
-                  <span className={styles.accent}> Starts Here</span>
-                </>
-              }
-              description="Expert preparation for competitive entrance examinations."
-              titleId="exams-heading"
-              tone="light"
-            />
-            <div className={styles.examsCount} aria-hidden="true">
-              <strong>06</strong>
-              <span>Exam pathways</span>
-            </div>
-          </div>
-
-          <div className={styles.examGrid}>
-            {entranceExams.map((exam, index) => {
-              const Icon = examIcons[exam.icon];
-              return (
-                <Link
-                  className={styles.examCard}
-                  key={exam.id}
-                  to={`/contact?course=${encodeURIComponent(exam.enquiryValue)}`}
-                  aria-label={`Enquire about ${exam.name} preparation`}
-                  data-reveal
-                  style={{ '--reveal-delay': `${index * 55}ms` } as CSSProperties}
-                >
-                  <span className={styles.examIcon} aria-hidden="true">
-                    <Icon size={19} strokeWidth={1.9} />
-                  </span>
-                  <span className={styles.examArrow} aria-hidden="true">
-                    <ArrowUpRight size={14} strokeWidth={2.2} />
-                  </span>
-                  <span className={styles.examName}>{exam.name}</span>
-                  <span className={styles.examCategory}>{exam.category}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section className={`section ${styles.coursesSection}`} id="courses" aria-labelledby="courses-heading">
-        <div className="container">
-          <div className={styles.sectionHeaderRow}>
-            <SectionHeading
-              eyebrow="Our Courses"
-              title={
-                <>
-                  Find the Right Course
-                  <span className={styles.accent}> for Your Future</span>
-                </>
-              }
-              description="Choose the learning path that fits your academic stage and preparation goals."
-              titleId="courses-heading"
-            />
-            <LineLink className={styles.headerLink} to="/courses">
-              View entrance programmes
-            </LineLink>
-          </div>
+        <span className={styles.coursesShape} aria-hidden="true" />
+        <div className={`container ${styles.coursesContainer}`}>
+          <SectionHeading
+            eyebrow="Our Courses"
+            title={
+              <>
+                Find the Right Course for
+                <span className={styles.accent}> Your Future</span>
+              </>
+            }
+            description="Choose the right learning path and prepare confidently for your dream entrance examination."
+            titleId="courses-heading"
+            className={styles.coursesHeading}
+          />
 
           <div className={styles.batchGrid}>
             {batchCourses.map((course, index) => {
               const Icon = batchIcons[course.icon];
               return (
                 <article
-                  className={[
-                    styles.batchCard,
-                    course.featured ? styles.batchFeatured : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
+                  className={styles.batchCard}
                   key={course.id}
                   data-reveal
                   style={{ '--reveal-delay': `${index * 70}ms` } as CSSProperties}
                 >
-                  <span className={styles.batchNumber} aria-hidden="true">
-                    {course.number}
-                  </span>
-                  <div className={styles.batchTop}>
+                  <div className={styles.batchMedia}>
+                    <img
+                      src={course.image.src}
+                      srcSet={course.image.srcSet}
+                      sizes="(max-width: 640px) 92vw, (max-width: 1000px) 44vw, 22vw"
+                      width={course.image.width}
+                      height={course.image.height}
+                      alt={course.image.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <span className={styles.batchIcon} aria-hidden="true">
-                      <Icon size={22} strokeWidth={1.9} />
+                      <Icon size={20} strokeWidth={2} />
                     </span>
-                    <span className={styles.batchEligibility}>{course.eligibility}</span>
                   </div>
 
                   <div className={styles.batchContent}>
-                    <h3 className={styles.batchName}>{course.name}</h3>
+                    <h3 className={styles.batchName}>{course.title}</h3>
+                    <span className={styles.batchEligibility}>{course.eligibility}</span>
                     <p className={styles.batchDescription}>{course.description}</p>
-                  </div>
 
-                  <div className={styles.batchFooter}>
+                    <ul className={styles.batchFeatures}>
+                      {course.features.map((feature) => (
+                        <li key={feature}>
+                          <span className={styles.batchCheck} aria-hidden="true">
+                            <Check size={12} strokeWidth={2.8} />
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
                     <Link
                       className={styles.batchCta}
                       to={`/contact?course=${encodeURIComponent(course.enquiryValue)}`}
                     >
-                      Enquire Now
-                      <ArrowUpRight size={15} strokeWidth={2.2} aria-hidden="true" />
+                      Explore Course
+                      <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
                     </Link>
                   </div>
-
-                  <Icon
-                    className={styles.batchWatermark}
-                    size={150}
-                    strokeWidth={0.9}
-                    aria-hidden="true"
-                  />
                 </article>
               );
             })}
-          </div>
-
-          <div className={styles.courseHelpBar} data-reveal>
-            <div className={styles.courseHelpCopy}>
-              <span className={styles.courseHelpIcon} aria-hidden="true">
-                <MessageCircle size={20} strokeWidth={2} />
-              </span>
-              <p>
-                <strong>Not sure which course fits?</strong> Share your academic
-                stage and goals with Edumate for guidance on the right batch.
-              </p>
-            </div>
-            <Link className="btn btn--secondary" to="/contact">
-              Talk to Edumate
-              <ArrowUpRight size={15} strokeWidth={2.2} aria-hidden="true" />
-            </Link>
           </div>
         </div>
       </section>
 
       <section className={`section ${styles.featuresSection}`} aria-labelledby="features-heading">
         <div className="container">
-          <SectionHeading
-            eyebrow="Course Features"
-            title={
-              <>
-                Everything You Need
-                <span className={styles.accent}> to Succeed</span>
-              </>
-            }
-            description="Comprehensive learning support designed to make your preparation effective and convenient."
-            titleId="features-heading"
-            align="center"
-          />
+          <div className={styles.featuresTop}>
+            <SectionHeading
+              eyebrow="Our Course Features"
+              title={
+                <>
+                  Everything You Need to
+                  <span className={styles.accent}> Succeed</span>
+                </>
+              }
+              description="Comprehensive learning support designed to make your preparation effective and convenient."
+              titleId="features-heading"
+            />
+            <p className={styles.featureMotto}>
+              Better Learning, Brighter Future
+              <span aria-hidden="true" />
+            </p>
+          </div>
 
           <div className={styles.modeGrid}>
             {courseModes.map((mode, index) => {
@@ -376,60 +362,113 @@ export function HomePage() {
                   data-reveal
                   style={{ '--reveal-delay': `${index * 100}ms` } as CSSProperties}
                 >
-                  <div className={styles.modeHeader}>
-                    <span className={styles.modeIcon} aria-hidden="true">
-                      <ModeIcon size={23} strokeWidth={1.9} />
-                    </span>
-                    <div>
-                      <h3 className={styles.modeTitle}>{mode.name}</h3>
+                  <header className={styles.modeHeader}>
+                    <div className={styles.modeTitleBlock}>
+                      <div className={styles.modeBadgeRow}>
+                        <h3 className={styles.modeBadge}>
+                          <ModeIcon size={17} strokeWidth={2} aria-hidden="true" />
+                          {mode.name}
+                        </h3>
+                        <span className={styles.modeEligibility}>{mode.eligibility}</span>
+                      </div>
                       <p className={styles.modeDescription}>{mode.description}</p>
                     </div>
-                  </div>
+                  </header>
 
-                  <div className={styles.modeHighlights}>
-                    {mode.highlights.map((highlight) => (
-                      <span key={highlight}>{highlight}</span>
-                    ))}
-                  </div>
-
-                  <ul className={styles.modeFeatures}>
-                    {mode.features.map((feature) => {
-                      const Icon = featureIcons[feature.icon];
-                      return (
-                        <li className={styles.modeFeature} key={feature.title}>
-                          <span className={styles.modeFeatureIcon} aria-hidden="true">
-                            <Icon size={16} strokeWidth={2} />
-                          </span>
-                          <div>
-                            <span className={styles.modeFeatureTitle}>
-                              {feature.title}
+                  <div className={styles.modeContent}>
+                    <ul className={styles.modeFeatures}>
+                      {mode.features.map((feature) => {
+                        const Icon = featureIcons[feature.icon];
+                        return (
+                          <li className={styles.modeFeature} key={feature.title}>
+                            <span className={styles.modeFeatureIcon} aria-hidden="true">
+                              <Icon size={17} strokeWidth={1.8} />
                             </span>
-                            <p className={styles.modeFeatureText}>
-                              {feature.description}
-                            </p>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                            <div>
+                              <span className={styles.modeFeatureTitle}>
+                                {feature.title}
+                              </span>
+                              <p className={styles.modeFeatureText}>
+                                {feature.description}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+
+                    <figure className={styles.modeMedia}>
+                      <img
+                        src={mode.image.src}
+                        srcSet={mode.image.srcSet}
+                        sizes="(max-width: 760px) 90vw, (max-width: 1100px) 40vw, 22vw"
+                        width={mode.image.width}
+                        height={mode.image.height}
+                        alt={mode.image.alt}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      {mode.imagePhrase ? (
+                        <figcaption className={styles.modeImagePhrase}>
+                          {mode.imagePhrase}
+                          <span aria-hidden="true" />
+                        </figcaption>
+                      ) : null}
+                      <span className={styles.modeImageAccent} aria-hidden="true" />
+                    </figure>
+                  </div>
                 </article>
               );
             })}
           </div>
 
-          <p className={styles.featureNote}>
-            <Info size={15} strokeWidth={2} aria-hidden="true" />
-            Both formats include daily examinations, doubt clearing, printed
-            study materials and mentor support.
-          </p>
+        </div>
+      </section>
+
+      <section className={styles.examsSection} aria-labelledby="exams-heading">
+        <div className={`container ${styles.examsLayout}`}>
+          <SectionHeading
+            eyebrow="Entrance Examinations"
+            title={
+              <>
+                Your Dream Career
+                <span className={styles.accent}> Starts Here</span>
+              </>
+            }
+            description="Expert preparation for competitive entrance examinations."
+            titleId="exams-heading"
+          />
+
+          <div className={styles.examGrid}>
+            {entranceExams.map((exam, index) => {
+              const Icon = examIcons[exam.icon];
+              return (
+                <Link
+                  className={styles.examCard}
+                  key={exam.id}
+                  to={`/contact?course=${encodeURIComponent(exam.enquiryValue)}`}
+                  aria-label={`Enquire about ${exam.name} preparation`}
+                  data-reveal
+                  style={{ '--reveal-delay': `${index * 55}ms` } as CSSProperties}
+                >
+                  <span className={styles.examIcon} aria-hidden="true">
+                    <Icon size={21} strokeWidth={1.8} />
+                  </span>
+                  <span className={styles.examName}>{exam.name}</span>
+                  <span className={styles.examCategory}>{exam.category}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       <section className={`section ${styles.resultsSection}`} aria-labelledby="results-heading">
+        <span className={styles.resultsShape} aria-hidden="true" />
         <div className="container">
-          <div className={styles.sectionHeaderRow}>
+          <div className={styles.resultsHeader}>
             <SectionHeading
-              eyebrow="Student Results"
+              eyebrow="Our Results"
               title={
                 <>
                   Our Results.
@@ -439,110 +478,235 @@ export function HomePage() {
               description="Celebrating the hard work, dedication and achievements of Edumate students."
               titleId="results-heading"
             />
-            <LineLink className={styles.headerLink} to="/results">
-              View All Results
-            </LineLink>
+            <p className={styles.resultsMotto}>
+              Real Students. Real Dreams. Real Results.
+              <span aria-hidden="true" />
+            </p>
           </div>
 
           <div className={styles.resultsShowcase}>
-            <figure className={styles.resultsGroup} data-reveal>
-              <img
-                src={resultsGroupPhoto.src}
-                srcSet={resultsGroupPhoto.srcSet}
-                sizes="(max-width: 900px) 92vw, 55vw"
-                width={resultsGroupPhoto.width}
-                height={resultsGroupPhoto.height}
-                alt={resultsGroupPhoto.alt}
-                loading="lazy"
-                decoding="async"
-              />
-              <span className={styles.resultsPhotoLabel}>
-                <Camera size={14} strokeWidth={2.1} aria-hidden="true" />
-                Group photograph placeholder
-              </span>
-              <figcaption>
-                <strong>Group photograph</strong>
-                A verified Edumate student group photo will replace this
-                representative image.
-              </figcaption>
-            </figure>
-
-            <aside className={styles.achievementBoard} data-reveal>
-              <div className={styles.boardHeader}>
-                <span className={styles.boardIcon} aria-hidden="true">
-                  <Trophy size={21} strokeWidth={1.9} />
-                </span>
-                <div>
-                  <p className={styles.boardEyebrow}>Top Achievers</p>
-                  <h3 className={styles.boardTitle}>Achievement spotlight</h3>
+            <div className={styles.resultCarouselGroup} data-reveal>
+              <div className={styles.resultCarouselHeader}>
+                <p>Student achievement profiles</p>
+                <div className={styles.resultCarouselControls}>
+                  <button
+                    className={styles.resultCarouselButton}
+                    type="button"
+                    aria-label="Show previous student achievements"
+                    onClick={() => scrollResults('previous')}
+                  >
+                    <ChevronLeft size={18} strokeWidth={2} aria-hidden="true" />
+                  </button>
+                  <button
+                    className={styles.resultCarouselButton}
+                    type="button"
+                    aria-label="Show next student achievements"
+                    onClick={() => scrollResults('next')}
+                  >
+                    <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
+                  </button>
                 </div>
-                <span className={styles.placeholderBadge}>Placeholder</span>
               </div>
 
-              <ul className={styles.achievementList}>
-                {entranceExams.map((exam) => (
-                  <li className={styles.achievementRow} key={exam.id}>
-                    <span className={styles.achievementExam}>{exam.name}</span>
-                    <span className={styles.achievementName}>
-                      Top achiever profile
-                    </span>
-                    <span
-                      className={styles.achievementScore}
-                      aria-label="Result pending"
-                    >
-                      —
-                    </span>
-                  </li>
+              <div
+                className={styles.resultGrid}
+                ref={resultCarouselRef}
+                role="region"
+                aria-label="Student achievement placeholders by entrance examination"
+                tabIndex={0}
+              >
+                {resultSlots.map((slot, index) => (
+                  <article
+                    className={styles.resultCard}
+                    key={slot.id}
+                    data-result-card
+                    data-reveal
+                    style={{ '--reveal-delay': `${index * 70}ms` } as CSSProperties}
+                  >
+                    <figure className={styles.resultPortrait}>
+                      <img
+                        src={slot.image.src}
+                        srcSet={slot.image.srcSet}
+                        sizes="(max-width: 640px) 80vw, (max-width: 1000px) 42vw, 15vw"
+                        width={slot.image.width}
+                        height={slot.image.height}
+                        alt={slot.image.alt}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span className={styles.resultExam}>{slot.exam}</span>
+                      <figcaption className={styles.resultPhotoCaption}>
+                        <Camera size={12} strokeWidth={2} aria-hidden="true" />
+                        Photo placeholder
+                      </figcaption>
+                    </figure>
+                    <div className={styles.resultBody}>
+                      <h3>Student Name</h3>
+                      <span className={styles.resultNameUnderline} aria-hidden="true" />
+                      <p className={styles.resultExamName}>{slot.exam} Entrance Examination</p>
+                      <div className={styles.resultDetails}>
+                        <span>Rank / Score</span>
+                        <span>Year</span>
+                      </div>
+                      <span className={styles.resultStatus}>Achievement Details</span>
+                    </div>
+                  </article>
                 ))}
-              </ul>
+              </div>
 
+              <p className={styles.resultsNote}>
+                <ShieldCheck size={14} strokeWidth={2} aria-hidden="true" />
+                Student details and photographs are placeholders until verified
+                information is approved for publication.
+              </p>
+            </div>
+
+            <aside className={styles.achievementBoard} data-reveal>
+              <span className={styles.boardShape} aria-hidden="true" />
+              <div className={styles.boardIllustration} aria-hidden="true">
+                <span><Trophy size={38} strokeWidth={1.45} /></span>
+                <GraduationCap size={46} strokeWidth={1.35} />
+                <BookOpen size={36} strokeWidth={1.35} />
+              </div>
+              <p className={styles.boardEyebrow}>Top Achievers</p>
+              <h3 className={styles.boardTitle}>Excellence in Every Exam</h3>
+              <p className={styles.boardDescription}>
+                Our students continue to achieve top ranks and make us proud
+                across various entrance examinations.
+              </p>
               <p className={styles.boardNote}>
-                <Info size={14} strokeWidth={2} aria-hidden="true" />
                 Verified student names, ranks and scores will be added after
                 publication approval.
               </p>
+              <Link className="btn btn--primary" to="/results">
+                View All Results
+                <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+              </Link>
             </aside>
           </div>
 
-          <div className={styles.resultGrid}>
-            {resultSlots.map((slot, index) => (
-              <article
-                className={styles.resultCard}
-                key={slot.id}
-                data-reveal
-                style={{ '--reveal-delay': `${index * 80}ms` } as CSSProperties}
-              >
-                <div className={styles.resultPortrait} aria-hidden="true">
-                  <span className={styles.resultPhotoIndex}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <UserRound size={54} strokeWidth={1.15} />
-                  <span className={styles.resultPhotoCaption}>
-                    <Camera size={12} strokeWidth={2} />
-                    Student photo
-                  </span>
-                </div>
-                <div className={styles.resultBody}>
-                  <span className={styles.resultExam}>{slot.exam}</span>
-                  <h3>Student result</h3>
-                  <p>
-                    Name, rank, score and photograph will be added after
-                    verification.
-                  </p>
-                  <span className={styles.resultStatus}>
-                    Awaiting verified details
-                  </span>
-                </div>
-              </article>
-            ))}
+          <div className={styles.achievementStrip} data-reveal>
+            <div className={styles.achievementIntro}>
+              <p className={styles.achievementEyebrow}>Our Achievements</p>
+              <h3>Building Brighter Futures</h3>
+              <p>
+                From classroom learning to top ranks, we take pride in every
+                student's success story.
+              </p>
+            </div>
+            <div className={styles.achievementHighlights}>
+              {achievementHighlights.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    className={styles.achievementHighlight}
+                    key={item.title}
+                    data-reveal
+                    style={{ '--reveal-delay': `${index * 65}ms` } as CSSProperties}
+                  >
+                    <span className={styles.achievementHighlightIcon} aria-hidden="true">
+                      <Icon size={22} strokeWidth={1.8} />
+                    </span>
+                    <div>
+                      <h4>{item.title}</h4>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className={`section ${styles.facilitiesSection}`}
+        aria-labelledby="facilities-heading"
+      >
+        <span className={styles.facilitiesShape} aria-hidden="true" />
+        <div className="container">
+          <div className={styles.facilitiesHeader}>
+            <SectionHeading
+              eyebrow="Our Facilities"
+              title={
+                <>
+                  Learn Better.
+                  <span className={styles.accent}> Grow Faster.</span>
+                </>
+              }
+              description="State-of-the-art facilities and a supportive learning environment to help you achieve your goals."
+              titleId="facilities-heading"
+            />
+            <p className={styles.facilitiesMotto}>
+              Better Facilities, Brighter Future
+              <span aria-hidden="true" />
+            </p>
           </div>
 
-          <p className={styles.resultsNote}>
-            <ShieldCheck size={15} strokeWidth={2} aria-hidden="true" />
-            Results, photographs and testimonials are published only after
-            verification and with permission. Placeholders will be replaced as
-            confirmed information becomes available.
-          </p>
+          <div className={styles.facilitiesShowcase}>
+            <div className={styles.facilityGrid}>
+              {facilities.map((facility, index) => {
+                const Icon = facilityIcons[facility.icon];
+                return (
+                  <article
+                    className={styles.facilityCard}
+                    key={facility.title}
+                    data-reveal
+                    style={{ '--reveal-delay': `${index * 65}ms` } as CSSProperties}
+                  >
+                    <span className={styles.facilityIcon} aria-hidden="true">
+                      <Icon size={22} strokeWidth={1.8} />
+                    </span>
+                    <h3>{facility.title}</h3>
+                    <p>{facility.description}</p>
+                  </article>
+                );
+              })}
+            </div>
+
+            <figure className={styles.facilityPhoto} data-reveal>
+              <img
+                src="/images/student-library-focus-1200.jpg"
+                srcSet="/images/student-library-focus-800.jpg 800w, /images/student-library-focus-1200.jpg 1200w"
+                sizes="(max-width: 760px) 92vw, (max-width: 1000px) 70vw, 30vw"
+                width={1200}
+                height={800}
+                alt="Representative photograph of a student writing in a notebook; not a verified Edumate campus photo"
+                loading="lazy"
+                decoding="async"
+              />
+              <p className={styles.facilityPhotoMotto}>
+                Your Goals, Our Priority
+                <span aria-hidden="true" />
+              </p>
+              <figcaption>
+                Representative classroom image. Edumate facility photography can
+                replace this image when available.
+              </figcaption>
+              <span className={styles.facilityPhotoAccent} aria-hidden="true" />
+            </figure>
+          </div>
+
+          <div className={styles.facilityCta} data-reveal>
+            <span className={styles.facilityCtaIcon} aria-hidden="true">
+              <Target size={31} strokeWidth={1.7} />
+            </span>
+            <span className={styles.facilityCtaDivider} aria-hidden="true" />
+            <div className={styles.facilityCtaCopy}>
+              <p>Achieve Your Goals</p>
+              <h3>
+                Join Edumate <span>Today.</span>
+              </h3>
+              <span>
+                Get expert guidance, quality education and the right support to
+                build your successful future.
+              </span>
+            </div>
+            <Link className={styles.facilityCtaButton} to="/courses">
+              Explore Our Courses
+              <ArrowRight size={17} strokeWidth={2.2} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
 
